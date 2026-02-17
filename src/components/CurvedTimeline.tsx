@@ -90,6 +90,12 @@ export function CurvedTimeline() {
 
   const [selectedMilestone, setSelectedMilestone] =
       useState<TimelineMilestone | null>(null);
+  /** Which milestone card is visible (click circle to show; click same circle to hide) */
+  const [visibleCardIndex, setVisibleCardIndex] = useState<number | null>(null);
+
+  const handleDotClick = useCallback((index: number) => {
+    setVisibleCardIndex((prev) => (prev === index ? null : index));
+  }, []);
 
   /* Ref setter factory for cards */
   const setCardRef = useCallback(
@@ -254,35 +260,50 @@ export function CurvedTimeline() {
               fill="none"
             />
 
-            {/* 3. Milestone dots */}
+            {/* 3. Milestone dots (click to show/hide card) */}
             {points.map((pt, i) => (
-                <g key={`dot-${milestones[i].id}`}>
+                <g
+                  key={`dot-${milestones[i].id}`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleDotClick(i)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleDotClick(i);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Show ${milestones[i].title} (${milestones[i].year})`}
+                >
+                  {/* Hit area for easier clicking */}
+                  <circle cx={pt.x} cy={pt.y} r={22} fill="transparent" />
                   {/* Soft outer ring */}
                   <circle
-                      cx={pt.x}
-                      cy={pt.y}
-                      r={22}
-                      fill={milestones[i].color}
-                      opacity={0.12}
+                    cx={pt.x}
+                    cy={pt.y}
+                    r={22}
+                    fill={milestones[i].color}
+                    opacity={0.12}
                   />
                   <circle
-                      cx={pt.x}
-                      cy={pt.y}
-                      r={15}
-                      fill={milestones[i].color}
-                      opacity={0.2}
+                    cx={pt.x}
+                    cy={pt.y}
+                    r={15}
+                    fill={milestones[i].color}
+                    opacity={0.2}
                   />
                   {/* Main dot (animated via ref) */}
                   <circle
-                      ref={(el) => {
-                        dotRefs.current[i] = el;
-                      }}
-                      cx={pt.x}
-                      cy={pt.y}
-                      r={9}
-                      fill={milestones[i].color}
-                      stroke="white"
-                      strokeWidth={3}
+                    ref={(el) => {
+                      dotRefs.current[i] = el;
+                    }}
+                    cx={pt.x}
+                    cy={pt.y}
+                    r={9}
+                    fill={milestones[i].color}
+                    stroke="white"
+                    strokeWidth={3}
                   />
                 </g>
             ))}
@@ -321,19 +342,25 @@ export function CurvedTimeline() {
                 <div
                     key={`card-${milestones[i].id}`}
                     ref={setCardRef(i)}
-                    className="absolute w-[min(520px,92%)] max-w-[95vw]"
+                    className="absolute w-[min(520px,92%)] max-w-[95vw] transition-opacity duration-200"
                     style={{
                       left: `${leftPercent}%`,
                       top: `${topPercent}%`,
                       transform: `translate(${isLeft ? "-100%" : "0"}, -50%)`,
+                      opacity: visibleCardIndex === i ? 1 : 0,
+                      visibility: visibleCardIndex === i ? "visible" : "hidden",
+                      pointerEvents: visibleCardIndex === i ? "auto" : "none",
                     }}
                 >
                   <TimelineCard
-                    milestone={milestones[i]}
-                    side={isLeft ? "left" : "right"}
-                    reveal
-                    showDot={false}
-                    onClick={() => setSelectedMilestone(milestones[i])}
+                      milestone={milestones[i]}
+                      // Spread the milestone properties to satisfy the component's required props
+                      {...milestones[i]}
+                      side={isLeft ? "left" : "right"}
+                      reveal={false}
+                      showDot={false}
+                      date={"10.00.2026"}
+                      onClick={() => setSelectedMilestone(milestones[i])}
                   />
                 </div>
             );
