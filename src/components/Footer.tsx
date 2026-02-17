@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="py-16 text-center">
       <p className="text-sm text-slate-400">
         Спасибо за внимание •{" "}
-        <span className="text-slate-500 font-medium">Timeline Journey</span>
+        <span className="text-slate-500 font-medium">Матвеенко А.Р.</span>
       </p>
     </footer>
   );
