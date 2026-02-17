@@ -11,6 +11,8 @@ export interface TimelineMilestone {
   imageUrl: string;
   icon: string;
   color: string;
+  /** Optional bullet points for card meta list (reference-style cards) */
+  metaItems?: string[];
 }
 
 export const milestones: TimelineMilestone[] = [
@@ -20,10 +22,11 @@ export const milestones: TimelineMilestone[] = [
     title: "The Spark of an Idea",
     summary: "A vision born from curiosity and passion.",
     description:
-      "It all began with a simple question: what if we could build something truly meaningful? Late nights of brainstorming and sketching on whiteboards led to the birth of a concept that would change everything. The founding team gathered in a small garage, fueled by coffee and ambition.",
+      "It all began with a simple question: what if we could build something truly meaningful? Late nights of brainstorming and sketching on whiteboards led to the birth of a concept that would change everything.",
     imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=400&fit=crop",
     icon: "💡",
     color: "#F59E0B",
+    metaItems: ["Concept born from a single question", "Whiteboard sessions & late nights", "Founding team assembled"],
   },
   {
     id: 2,
@@ -31,10 +34,11 @@ export const milestones: TimelineMilestone[] = [
     title: "Building the Foundation",
     summary: "First prototype and early adopters.",
     description:
-      "With the vision crystallized, the team dove into development. The first prototype was rough around the edges but showed incredible promise. Early adopters provided invaluable feedback that shaped the product's direction. Partnerships were forged and the foundation was laid for growth.",
+      "With the vision crystallized, the team dove into development. The first prototype was rough around the edges but showed incredible promise. Early adopters provided invaluable feedback.",
     imageUrl: "https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?w=600&h=400&fit=crop",
     icon: "🏗️",
     color: "#3B82F6",
+    metaItems: ["First prototype shipped", "Early adopters onboarded", "Partnerships forged"],
   },
   {
     id: 3,
@@ -42,10 +46,11 @@ export const milestones: TimelineMilestone[] = [
     title: "Overcoming Challenges",
     summary: "Pivoting through uncertainty and adversity.",
     description:
-      "The world changed overnight and so did we. Remote work became the norm, but the team's spirit never wavered. We pivoted our approach, embraced new technologies, and discovered innovative solutions to problems we never anticipated. This period forged resilience into our DNA.",
+      "The world changed overnight and so did we. Remote work became the norm, but the team's spirit never wavered. We pivoted our approach and discovered innovative solutions.",
     imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop",
     icon: "⚡",
     color: "#EF4444",
+    metaItems: ["Remote-first transition", "New tech stack adopted", "Resilience forged"],
   },
   {
     id: 4,
@@ -53,10 +58,11 @@ export const milestones: TimelineMilestone[] = [
     title: "First Major Launch",
     summary: "Going public with version 1.0 release.",
     description:
-      "After years of iteration, the product was ready for the world. The launch exceeded all expectations — thousands signed up in the first week. Media coverage poured in, investors took notice, and the team celebrated a milestone that once seemed impossible. Version 1.0 was just the beginning.",
+      "After years of iteration, the product was ready for the world. The launch exceeded all expectations — thousands signed up in the first week. Version 1.0 was just the beginning.",
     imageUrl: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&h=400&fit=crop",
     icon: "🚀",
     color: "#8B5CF6",
+    metaItems: ["Version 1.0 released", "Thousands signed in week one", "Media & investor attention"],
   },
   {
     id: 5,
@@ -64,10 +70,11 @@ export const milestones: TimelineMilestone[] = [
     title: "Scaling New Heights",
     summary: "Global expansion and team growth.",
     description:
-      "With product-market fit validated, it was time to scale. The team grew from 10 to 50 passionate individuals across three continents. New features were shipped weekly, and the user base expanded to over 100,000 active users. Strategic partnerships opened doors to new markets.",
+      "With product-market fit validated, it was time to scale. The team grew from 10 to 50 across three continents. The user base expanded to over 100,000 active users.",
     imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop",
     icon: "📈",
     color: "#10B981",
+    metaItems: ["Team 10 → 50", "100k+ active users", "Strategic partnerships"],
   },
   {
     id: 6,
@@ -75,10 +82,11 @@ export const milestones: TimelineMilestone[] = [
     title: "Industry Recognition",
     summary: "Awards, accolades, and community love.",
     description:
-      "The hard work paid off. Industry awards lined the shelves, thought leaders praised the innovation, and a thriving community of advocates emerged. Speaking engagements at major conferences showcased the journey and inspired others to pursue their own visions.",
+      "The hard work paid off. Industry awards lined the shelves, thought leaders praised the innovation, and a thriving community of advocates emerged.",
     imageUrl: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop",
     icon: "🏆",
     color: "#F97316",
+    metaItems: ["Industry awards won", "Conference keynotes", "Community advocates grew"],
   },
   {
     id: 7,
@@ -86,10 +94,11 @@ export const milestones: TimelineMilestone[] = [
     title: "AI Revolution",
     summary: "Integrating cutting-edge AI capabilities.",
     description:
-      "Embracing the AI revolution, the team integrated machine learning and intelligent automation throughout the platform. Smart recommendations, predictive analytics, and natural language processing transformed the user experience. The future arrived ahead of schedule.",
+      "Embracing the AI revolution, the team integrated machine learning and intelligent automation throughout the platform. The future arrived ahead of schedule.",
     imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
     icon: "🤖",
     color: "#06B6D4",
+    metaItems: ["ML pipeline live", "Smart recommendations", "NLP features shipped"],
   },
   {
     id: 8,
@@ -97,9 +106,10 @@ export const milestones: TimelineMilestone[] = [
     title: "The Future Awaits",
     summary: "New horizons and unlimited possibilities.",
     description:
-      "Standing at the frontier of innovation, the journey continues. With a world-class team, a passionate community, and technology that pushes boundaries, the next chapter promises to be the most exciting yet. The best is always yet to come.",
+      "Standing at the frontier of innovation, the journey continues. With a world-class team and technology that pushes boundaries, the next chapter promises to be the most exciting yet.",
     imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop",
     icon: "🌟",
     color: "#EC4899",
+    metaItems: ["New horizons ahead", "Boundary-pushing tech", "Best yet to come"],
   },
 ];

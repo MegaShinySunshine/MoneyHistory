@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { milestones } from "@/data/timelineData";
-import { PreviewCard } from "./PreviewCard";
+import { TimelineCard } from "./TimelineCard";
 import { FullCardModal } from "./FullCardModal";
 import type { TimelineMilestone } from "@/data/timelineData";
 
@@ -321,17 +321,19 @@ export function CurvedTimeline() {
                 <div
                     key={`card-${milestones[i].id}`}
                     ref={setCardRef(i)}
-                    className="absolute"
+                    className="absolute w-[min(520px,92%)] max-w-[95vw]"
                     style={{
                       left: `${leftPercent}%`,
                       top: `${topPercent}%`,
-                      transform: `translate(${isLeft ? "-105%" : "5%"}, -50%)`,
+                      transform: `translate(${isLeft ? "-100%" : "0"}, -50%)`,
                     }}
                 >
-                  <PreviewCard
-                      milestone={milestones[i]}
-                      index={i}
-                      onClick={() => setSelectedMilestone(milestones[i])}
+                  <TimelineCard
+                    milestone={milestones[i]}
+                    side={isLeft ? "left" : "right"}
+                    reveal
+                    showDot={false}
+                    onClick={() => setSelectedMilestone(milestones[i])}
                   />
                 </div>
             );

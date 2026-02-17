@@ -28,3 +28,270 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+/* ─── Timeline card theme (reference design) ─── */
+:root {
+  --timeline-bg: #e5e5e7;
+  --timeline-surface: #f5f5f5;
+  --timeline-ink: #212121;
+  --timeline-muted: #6d6d6d;
+  --timeline-primary: #3f51b5;
+  --timeline-primaryDark: #303f9f;
+  --timeline-primaryLight: #c5cae9;
+  --timeline-accent: #ff4081;
+  --timeline-cardShadow: 0 22px 30px -18px rgba(0, 0, 0, 0.35);
+  --timeline-cardShadowHover: 0 26px 38px -18px rgba(0, 0, 0, 0.42);
+  --timeline-radius: 16px;
+}
+
+.timelineItem {
+  position: relative;
+  width: 100%;
+  margin: 0 0 70px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.timelineItem.right {
+  justify-content: flex-end;
+}
+
+.timelineDot {
+  width: 28px;
+  height: 28px;
+  background: var(--timeline-primary);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 28px;
+  box-shadow:
+    0 0 0 6px rgba(197, 202, 233, 0.35),
+    0 18px 40px rgba(63, 81, 181, 0.25);
+}
+
+.card {
+  width: min(520px, 92%);
+  background: var(--timeline-surface);
+  border-radius: var(--timeline-radius);
+  box-shadow: var(--timeline-cardShadow);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--timeline-cardShadowHover);
+}
+
+.cardTop {
+  position: relative;
+}
+
+.imgWrap {
+  width: 100%;
+  height: 190px;
+  background: linear-gradient(
+    135deg,
+    rgba(63, 81, 181, 0.12),
+    rgba(255, 64, 129, 0.08)
+  );
+  overflow: hidden;
+}
+
+.imgWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 0.35s ease;
+}
+
+.card:hover .imgWrap img {
+  transform: scale(1.06);
+}
+
+.cardTop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0.2)
+  );
+  pointer-events: none;
+}
+
+.card .date {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 64, 129, 0.92);
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  box-shadow: 0 14px 28px rgba(255, 64, 129, 0.25);
+}
+
+.cardBody {
+  padding: 18px 18px 16px;
+}
+
+.cardBody h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: var(--timeline-ink);
+}
+
+.cardBody p {
+  color: var(--timeline-muted);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.card .meta {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.card .meta li {
+  position: relative;
+  padding-left: 18px;
+  color: rgba(33, 33, 33, 0.82);
+  font-size: 14px;
+}
+
+.card .meta li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(63, 81, 181, 0.85);
+  position: absolute;
+  left: 0;
+  top: 7px;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.left {
+  transform: translate(-56px, 16px);
+}
+
+.reveal.right {
+  transform: translate(56px, 16px);
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Card arrow pointers (classic timeline) */
+.timelineItem.left .card::after,
+.timelineItem.right .card::after {
+  content: "";
+  position: absolute;
+  top: 36px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.timelineItem.left .card::after {
+  right: -14px;
+  border-width: 10px 0 10px 14px;
+  border-color: transparent transparent transparent var(--timeline-surface);
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.15));
+}
+
+.timelineItem.right .card::after {
+  left: -14px;
+  border-width: 10px 14px 10px 0;
+  border-color: transparent var(--timeline-surface) transparent transparent;
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.15));
+}
+
+/* Optional action buttons */
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.cardActionBtn {
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cardActionBtn.primary {
+  background: var(--timeline-primary);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(63, 81, 181, 0.35);
+}
+
+.cardActionBtn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(63, 81, 181, 0.4);
+}
+
+.cardActionBtn.secondary {
+  background: transparent;
+  color: var(--timeline-primary);
+  border: 2px solid var(--timeline-primaryLight);
+}
+
+.cardActionBtn.secondary:hover {
+  background: rgba(63, 81, 181, 0.08);
+}
+
+/* Responsive: single column, arrow always left */
+@media (max-width: 840px) {
+  .timelineRail {
+    left: 44px;
+    transform: none;
+  }
+
+  .timelineDot {
+    left: 44px;
+    transform: none;
+  }
+
+  .timelineItem {
+    justify-content: flex-start !important;
+  }
+
+  .card {
+    width: min(520px, calc(100% - 24px));
+  }
+
+  .timelineItem.left .card::after,
+  .timelineItem.right .card::after {
+    left: -14px;
+    right: auto;
+    border-width: 10px 14px 10px 0;
+    border-color: transparent var(--timeline-surface) transparent transparent;
+  }
+}
