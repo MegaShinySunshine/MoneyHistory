@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import type { TimelineMilestone } from "@/data/timelineData";
 import { cn } from "@/utils/cn";
 
@@ -9,17 +10,17 @@ export interface TimelineCardAction {
 }
 
 export interface TimelineCardProps {
-  /** Image URL for the card top */
-  imageUrl: string;
+  /** Image URL for the card top (optional if milestone is provided) */
+  imageUrl?: string;
   /** Image alt text */
   imageAlt?: string;
-  /** Year or date badge (e.g. "2018") */
-  date: string;
-  /** Card title */
-  title: string;
-  /** Short description paragraph */
-  description: string;
-  /** Bullet list items (meta) */
+  /** Year or date badge (e.g. "2018") (optional if milestone is provided) */
+  date?: string;
+  /** Card title (optional if milestone is provided) */
+  title?: string;
+  /** Description paragraph (optional if milestone is provided) */
+  description?: string;
+  /** Bullet list items (meta) (optional if milestone is provided) */
   metaItems?: string[];
   /** Optional action buttons */
   actions?: TimelineCardAction[];
@@ -29,12 +30,14 @@ export interface TimelineCardProps {
   reveal?: boolean;
   /** Additional class for the article wrapper */
   className?: string;
-  /** Click handler for the whole card (e.g. open modal) */
+  /** Click handler for the whole card (typically expands) */
   onClick?: () => void;
   /** Use milestone to fill all fields and optional accent color for date badge */
   milestone?: TimelineMilestone;
   /** Show the timeline dot (set false when card is used on a curved path with its own dots) */
   showDot?: boolean;
+  /** Whether this card is expanded (full details) or preview (compact) */
+  expanded?: boolean;
 }
 
 /**
@@ -56,15 +59,18 @@ export function TimelineCard({
   onClick,
   milestone,
   showDot = true,
+  expanded = false,
 }: TimelineCardProps) {
   const articleRef = useRef<HTMLElement>(null);
   const [show, setShow] = useState(false);
 
-  const finalImage = milestone?.imageUrl ?? imageUrl;
-  const finalDate = milestone?.year ?? date;
-  const finalTitle = milestone?.title ?? title;
-  const finalDesc = milestone?.summary ?? description;
-  const finalMeta = milestone?.metaItems ?? metaItems;
+  const finalImage = milestone?.imageUrl ?? imageUrl ?? "";
+  const finalYear = milestone?.year ?? date ?? "";
+  const finalTitle = milestone?.title ?? title ?? "";
+  const finalSummary = milestone?.summary ?? "";
+  const finalDescription = milestone?.description ?? description ?? "";
+  const finalMeta = milestone?.metaItems ?? metaItems ?? [];
+  const finalIcon = milestone?.icon ?? "";
   const accentColor = milestone?.color ?? "#ff4081";
 
   useEffect(() => {
@@ -97,7 +103,18 @@ export function TimelineCard({
       {showDot && <div className="timelineDot" aria-hidden="true" />}
 
       <div
-        className={cn("card", onClick && "cursor-pointer")}
+        className={cn(
+          "card",
+          expanded ? "isExpanded" : "isPreview",
+          onClick && "cursor-pointer"
+        )}
+        style={
+          accentColor
+            ? ({
+                ["--card-accent" as never]: accentColor,
+              } as CSSProperties)
+            : undefined
+        }
         role={onClick ? "button" : undefined}
         onClick={onClick}
         onKeyDown={
@@ -112,60 +129,71 @@ export function TimelineCard({
         }
         tabIndex={onClick ? 0 : undefined}
       >
-        <div className="cardTop">
-          <div className="imgWrap">
-            <img
-              src={finalImage}
-              alt={imageAlt || finalTitle}
-              loading="lazy"
-            />
-          </div>
-          <div
-            className="date"
-            style={
-              accentColor
-                ? {
-                    background: accentColor,
-                    boxShadow: `0 14px 28px ${accentColor}40`,
-                  }
-                : undefined
-            }
-          >
-            {finalDate}
-          </div>
-        </div>
-
-        <div className="cardBody">
-          <h2>{finalTitle}</h2>
-          <p>{finalDesc}</p>
-          {finalMeta.length > 0 && (
-            <ul className="meta">
-              {finalMeta.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
-          )}
-          {actions && actions.length > 0 && (
-            <div className="cardActions">
-              {actions.map((action, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  className={cn(
-                    "cardActionBtn",
-                    action.variant === "primary" ? "primary" : "secondary"
-                  )}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    action.onClick();
-                  }}
-                >
-                  {action.label}
-                </button>
-              ))}
+        {expanded ? (
+          <>
+            <div className="cardTop">
+              <div className="imgWrap">
+                <img
+                  src={finalImage}
+                  alt={imageAlt || finalTitle}
+                  loading="lazy"
+                />
+              </div>
+              <div className="date">{finalYear}</div>
             </div>
-          )}
-        </div>
+
+            <div className="cardBody">
+              <h2>{finalTitle}</h2>
+              <p>{finalDescription}</p>
+              {finalMeta.length > 0 && (
+                <ul className="meta">
+                  {finalMeta.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              )}
+              {actions && actions.length > 0 && (
+                <div className="cardActions">
+                  {actions.map((action, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      className={cn(
+                        "cardActionBtn",
+                        action.variant === "primary" ? "primary" : "secondary"
+                      )}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        action.onClick();
+                      }}
+                    >
+                      {action.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="cardBody cardBodyPreview">
+            <div className="previewHeader">
+              <div className="previewIcon" aria-hidden="true">
+                {finalIcon}
+              </div>
+              <div className="previewYear">{finalYear}</div>
+            </div>
+
+            <p className="previewSummary">{finalSummary}</p>
+
+            {finalMeta.length > 0 && (
+              <ul className="meta">
+                {finalMeta.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
       </div>
     </article>
   );

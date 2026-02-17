@@ -90,11 +90,13 @@ export function CurvedTimeline() {
 
   const [selectedMilestone, setSelectedMilestone] =
       useState<TimelineMilestone | null>(null);
-  /** Which milestone card is visible (click circle to show; click same circle to hide) */
-  const [visibleCardIndex, setVisibleCardIndex] = useState<number | null>(null);
+  /** Which milestone card is expanded (all cards render in preview by default). */
+  const [expandedCardIndex, setExpandedCardIndex] = useState<number | null>(
+    null
+  );
 
-  const handleDotClick = useCallback((index: number) => {
-    setVisibleCardIndex((prev) => (prev === index ? null : index));
+  const expandCard = useCallback((index: number) => {
+    setExpandedCardIndex(index);
   }, []);
 
   /* Ref setter factory for cards */
@@ -104,6 +106,26 @@ export function CurvedTimeline() {
       },
       []
   );
+
+  // Click outside collapses the expanded card
+  useEffect(() => {
+    function onPointerDown(e: PointerEvent) {
+      const target = e.target as Node | null;
+      if (!target) return;
+
+      const clickedInsideAnyCard = cardRefs.current.some(
+        (el) => el && el.contains(target)
+      );
+
+      if (!clickedInsideAnyCard) {
+        setExpandedCardIndex(null);
+      }
+    }
+
+    // Capture so we run before other handlers; we still allow card clicks to expand.
+    document.addEventListener("pointerdown", onPointerDown, true);
+    return () => document.removeEventListener("pointerdown", onPointerDown, true);
+  }, []);
 
   /* ── Layout constants ── */
   const CONTAINER_WIDTH = 1000; // px (max-width)
@@ -169,27 +191,11 @@ export function CurvedTimeline() {
         const card = cardRefs.current[i];
         if (!dot || !card) return;
 
-        const isLeft = i % 2 === 0;
-
         gsap.set(dot, { scale: 0, transformOrigin: "center center" });
         gsap.to(dot, {
           scale: 1,
           duration: 0.5,
           ease: "back.out(3)",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        gsap.set(card, { opacity: 0, x: isLeft ? -80 : 80, scale: 0.9 });
-        gsap.to(card, {
-          opacity: 1,
-          x: 0,
-          scale: 1,
-          duration: 0.65,
-          ease: "power3.out",
           scrollTrigger: {
             trigger: card,
             start: "top 85%",
@@ -260,21 +266,21 @@ export function CurvedTimeline() {
               fill="none"
             />
 
-            {/* 3. Milestone dots (click to show/hide card) */}
+            {/* 3. Milestone dots (click to expand card) */}
             {points.map((pt, i) => (
                 <g
                   key={`dot-${milestones[i].id}`}
                   style={{ cursor: "pointer" }}
-                  onClick={() => handleDotClick(i)}
+                  onClick={() => expandCard(i)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      handleDotClick(i);
+                      expandCard(i);
                     }
                   }}
                   role="button"
                   tabIndex={0}
-                  aria-label={`Show ${milestones[i].title} (${milestones[i].year})`}
+                  aria-label={`Expand ${milestones[i].title} (${milestones[i].year})`}
                 >
                   {/* Hit area for easier clicking */}
                   <circle cx={pt.x} cy={pt.y} r={22} fill="transparent" />
@@ -342,25 +348,28 @@ export function CurvedTimeline() {
                 <div
                     key={`card-${milestones[i].id}`}
                     ref={setCardRef(i)}
-                    className="absolute w-[min(520px,92%)] max-w-[95vw] transition-opacity duration-200"
+                    className="absolute w-[min(520px,92%)] max-w-[95vw]"
                     style={{
                       left: `${leftPercent}%`,
                       top: `${topPercent}%`,
                       transform: `translate(${isLeft ? "-100%" : "0"}, -50%)`,
-                      opacity: visibleCardIndex === i ? 1 : 0,
-                      visibility: visibleCardIndex === i ? "visible" : "hidden",
-                      pointerEvents: visibleCardIndex === i ? "auto" : "none",
+                      zIndex: expandedCardIndex === i ? 50 : 1,
                     }}
                 >
                   <TimelineCard
-                      milestone={milestones[i]}
-                      // Spread the milestone properties to satisfy the component's required props
-                      {...milestones[i]}
-                      side={isLeft ? "left" : "right"}
-                      reveal={false}
-                      showDot={false}
-                      date={"10.00.2026"}
-                      onClick={() => setSelectedMilestone(milestones[i])}
+                    milestone={milestones[i]}
+                    side={isLeft ? "left" : "right"}
+                    reveal={false}
+                    showDot={false}
+                    expanded={expandedCardIndex === i}
+                    actions={[
+                      {
+                        label: "Open details",
+                        variant: "primary",
+                        onClick: () => setSelectedMilestone(milestones[i]),
+                      },
+                    ]}
+                    onClick={() => expandCard(i)}
                   />
                 </div>
             );
