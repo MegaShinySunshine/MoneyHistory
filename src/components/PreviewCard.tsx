@@ -60,6 +60,8 @@ export function PreviewCard({ milestone, onClick }: PreviewCardProps) {
             strokeLinejoin="round"
             d="M9 5l7 7-7 7"
           />
+
+
         </svg>
       </span>
 

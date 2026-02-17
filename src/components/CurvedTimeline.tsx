@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { milestones } from "@/data/timelineData";
 import { PreviewCard } from "./PreviewCard";
 import { FullCardModal } from "./FullCardModal";
 import type { TimelineMilestone } from "@/data/timelineData";
 
-/* Register GSAP plugins */
-gsap.registerPlugin(ScrollTrigger);
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+
+// Register them immediately
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+}
 
 /* ─────────────────────────────────────────────
    Helper: generate a smooth S-curve SVG path
@@ -71,14 +75,17 @@ function buildCurvePath(
   return { pathD: d, points };
 }
 
+/* Number of equal-length segments the trace is cut into (fills piece by piece) */
+
+
 /* ─────────────────────────────────────────────
    CurvedTimeline component
    ───────────────────────────────────────────── */
 export function CurvedTimeline() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const glowPathRef = useRef<SVGPathElement>(null);
+  const tracePathRef = useRef<SVGPathElement>(null);
   const dotRefs = useRef<(SVGCircleElement | null)[]>([]);
+  const tracerRef = useRef<SVGCircleElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const [selectedMilestone, setSelectedMilestone] =
@@ -107,30 +114,50 @@ export function CurvedTimeline() {
   /* ── GSAP scroll-driven animations ── */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const path = pathRef.current;
-      const glowPath = glowPathRef.current;
-      if (!path || !glowPath) return;
+      const tracePath = tracePathRef.current;
+      const tracer = tracerRef.current;
+      if (!tracePath || !tracer) return;
 
-      // ---------- 1. Draw the path on scroll ----------
-      const len = path.getTotalLength();
+      const totalLen = tracePath.getTotalLength();
 
-      gsap.set([path, glowPath], {
-        strokeDasharray: len,
-        strokeDashoffset: len,
+      // 1. Set initial states: hide the line and put tracer at the very start
+      gsap.set(tracePath, {
+        strokeDasharray: totalLen,
+        strokeDashoffset: totalLen,
       });
 
-      gsap.to([path, glowPath], {
-        strokeDashoffset: 0,
-        ease: "none",
+      // Put the tracer at progress 0 of the path
+      gsap.set(tracer, { opacity: 0 }); // Hide until scroll starts
+
+      // 2. Create a master timeline attached to the ScrollTrigger
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top 60%",
           end: "bottom 80%",
           scrub: 1.5,
+          onEnter: () => gsap.to(tracer, { opacity: 1, duration: 0.3 }),
+          onLeaveBack: () => gsap.to(tracer, { opacity: 0, duration: 0.3 }),
         },
       });
 
-      // ---------- 2. Reveal dots & cards per milestone ----------
+      // 3. Draw the line
+      tl.to(tracePath, {
+        strokeDashoffset: 0,
+        ease: "none",
+      }, 0); // The "0" ensures it starts at the beginning of the timeline
+
+      // 4. Move the tracer along the path
+      tl.to(tracer, {
+        motionPath: {
+          path: tracePath,
+          align: tracePath,
+          alignOrigin: [0.5, 0.5],
+        },
+        ease: "none",
+      }, 0); // Also starts at "0" to sync perfectly with the line draw
+
+      // ---------- 5. Reveal dots & cards per milestone ----------
       milestones.forEach((_, i) => {
         const dot = dotRefs.current[i];
         const card = cardRefs.current[i];
@@ -138,7 +165,6 @@ export function CurvedTimeline() {
 
         const isLeft = i % 2 === 0;
 
-        // Dot scales in
         gsap.set(dot, { scale: 0, transformOrigin: "center center" });
         gsap.to(dot, {
           scale: 1,
@@ -151,7 +177,6 @@ export function CurvedTimeline() {
           },
         });
 
-        // Card slides & fades in from the side
         gsap.set(card, { opacity: 0, x: isLeft ? -80 : 80, scale: 0.9 });
         gsap.to(card, {
           opacity: 1,
@@ -188,7 +213,6 @@ export function CurvedTimeline() {
               fill="none"
               aria-hidden="true"
           >
-            {/* Gradient definition */}
             <defs>
               <linearGradient
                   id="curveGradient"
@@ -207,50 +231,30 @@ export function CurvedTimeline() {
                 <stop offset="85%" stopColor="#06B6D4" />
                 <stop offset="100%" stopColor="#EC4899" />
               </linearGradient>
-
-              {/* Glow filter */}
-              <filter id="pathGlow" x="-10%" y="-10%" width="120%" height="120%">
-                <feGaussianBlur stdDeviation="8" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
             </defs>
 
-            {/* 1. Faint guide line (always visible) */}
+            {/* 1. Faint guide: full trace so the path is always visible */}
             <path
-                d={pathD}
-                stroke="#e2e8f0"
-                strokeWidth={3}
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray="12 8"
+              d={pathD}
+              stroke="#e2e8f0"
+              strokeWidth={2}
+              strokeLinecap="round"
+              fill="none"
+              strokeDasharray="8 6"
             />
 
-            {/* 2. Glow layer (animated) */}
+            {/* 2. Trace = the line that is filled: gradient on the path stroke, cut into equal-length segments, revealed on scroll */}
             <path
-                ref={glowPathRef}
-                d={pathD}
-                stroke="url(#curveGradient)"
-                strokeWidth={8}
-                strokeLinecap="round"
-                fill="none"
-                filter="url(#pathGlow)"
-                opacity={0.35}
+              ref={tracePathRef}
+              d={pathD}
+              stroke="url(#curveGradient)"
+              strokeWidth={5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
             />
 
-            {/* 3. Main animated path */}
-            <path
-                ref={pathRef}
-                d={pathD}
-                stroke="url(#curveGradient)"
-                strokeWidth={4}
-                strokeLinecap="round"
-                fill="none"
-            />
-
-            {/* 4. Milestone dots */}
+            {/* 3. Milestone dots */}
             {points.map((pt, i) => (
                 <g key={`dot-${milestones[i].id}`}>
                   {/* Soft outer ring */}
@@ -282,7 +286,22 @@ export function CurvedTimeline() {
                   />
                 </g>
             ))}
+
+            {/* 4. THE TRACER DOT */}
+            <circle
+                ref={tracerRef}
+                r={12}
+                fill="#FFFFFF"
+                stroke="#3B82F6"
+                strokeWidth={4}
+                style={{
+                  filter: "drop-shadow(0px 0px 8px rgba(59, 130, 246, 0.8))",
+                  visibility: "hidden" // GSAP MotionPath will handle positioning
+                }}
+            />
           </svg>
+
+
 
           {/* ════════════════════════════════════
             HTML layer — preview cards
