@@ -362,13 +362,6 @@ export function CurvedTimeline() {
                     reveal={false}
                     showDot={false}
                     expanded={expandedCardIndex === i}
-                    actions={[
-                      {
-                        label: "Open details",
-                        variant: "primary",
-                        onClick: () => setSelectedMilestone(milestones[i]),
-                      },
-                    ]}
                     onClick={() => expandCard(i)}
                   />
                 </div>

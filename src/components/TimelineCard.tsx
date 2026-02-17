@@ -52,7 +52,6 @@ export function TimelineCard({
   title,
   description,
   metaItems = [],
-  actions,
   side = "left",
   reveal = true,
   className,
@@ -151,26 +150,6 @@ export function TimelineCard({
                     <li key={i}>{item}</li>
                   ))}
                 </ul>
-              )}
-              {actions && actions.length > 0 && (
-                <div className="cardActions">
-                  {actions.map((action, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      className={cn(
-                        "cardActionBtn",
-                        action.variant === "primary" ? "primary" : "secondary"
-                      )}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        action.onClick();
-                      }}
-                    >
-                      {action.label}
-                    </button>
-                  ))}
-                </div>
               )}
             </div>
           </>
