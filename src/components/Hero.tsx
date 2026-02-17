@@ -63,7 +63,7 @@ export function Hero() {
         className="mb-4 bg-gradient-to-r from-violet-600 via-blue-500 to-emerald-500 bg-clip-text text-5xl font-extrabold leading-tight text-transparent sm:text-6xl md:text-7xl"
         style={{ opacity: 0 }}
       >
-        Our Journey
+        История денег
       </h1>
 
       <p
@@ -71,8 +71,7 @@ export function Hero() {
         className="max-w-xl text-lg text-slate-500 sm:text-xl"
         style={{ opacity: 0 }}
       >
-        Scroll down to explore the milestones that shaped who we are. Every step
-        on the path tells a story.
+        История того, как люди учились делать обмен проще и удобнее.
       </p>
 
       {/* scroll-down arrow */}
