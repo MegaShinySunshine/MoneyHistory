@@ -129,7 +129,7 @@ export function CurvedTimeline() {
 
   /* ── Layout constants ── */
   const CONTAINER_WIDTH = 1000; // px (max-width)
-  const SEGMENT_HEIGHT = 520;
+  const SEGMENT_HEIGHT = 720;
   const TOTAL_HEIGHT = milestones.length * SEGMENT_HEIGHT + 120;
 
   /* ── Build the curved path ── */

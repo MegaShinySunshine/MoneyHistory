@@ -13,6 +13,7 @@ export interface TimelineMilestone {
   color: string;
   /** Optional bullet points for card meta list (reference-style cards) */
   metaItems?: string[];
+  audioUrl?: string;
 }
 
 export const milestones: TimelineMilestone[] = [
@@ -41,6 +42,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "🤝",
     color: "#F59E0B",
     metaItems: ["зерно", "скот", "рыба", "меха"],
+    audioUrl: "src/audio/test.mp3"
   },
   {
     id: 2,

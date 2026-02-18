@@ -15,6 +15,7 @@ export interface TimelineCardProps {
     milestone?: any;
     showDot?: boolean;
     expanded?: boolean;
+    audioUrl?: string;
 }
 
 export function TimelineCard({
@@ -30,7 +31,7 @@ export function TimelineCard({
                                onClick,
                                milestone,
                                showDot = true,
-                               expanded = false,
+                               expanded = false, audioUrl=""
                              }: TimelineCardProps) {
   const articleRef = useRef<HTMLElement>(null);
   const [show, setShow] = useState(false);
@@ -43,6 +44,22 @@ export function TimelineCard({
   const finalMeta = milestone?.metaItems ?? metaItems ?? [];
   const finalIcon = milestone?.icon ?? "";
   const accentColor = milestone?.color ?? "#ff4081";
+
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const toggleAudio = () => {
+        if (!audioRef.current) return;
+
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.play();
+        }
+
+        setIsPlaying(!isPlaying);
+    };
+
 
   useEffect(() => {
     if (!reveal || !articleRef.current) return;
@@ -117,8 +134,31 @@ export function TimelineCard({
 
                 <div className="cardBody">
                   <h2 className="text-2xl font-bold mb-4">{finalTitle}</h2>
-                  <p className="whitespace-pre-wrap">{finalDescription}</p>
-                  {/* Meta list removed here for a cleaner "Full Story" look */}
+                    <p className="whitespace-pre-wrap mb-6">{finalDescription}</p>
+
+                    {milestone?.audioUrl && (
+                        <div className="mt-4">
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleAudio();
+                                }}
+                                className="px-5 py-2 rounded-full font-medium text-white transition"
+                                style={{
+                                    backgroundColor: accentColor,
+                                }}
+                            >
+                                {isPlaying ? "Pause Audio" : "Play Audio"}
+                            </button>
+
+                            <audio
+                                ref={audioRef}
+                                src={milestone.audioUrl}
+                                onEnded={() => setIsPlaying(false)}
+                            />
+                        </div>
+                    )}
+                    {/* Meta list removed here for a cleaner "Full Story" look */}
                 </div>
               </>
           ) : (
