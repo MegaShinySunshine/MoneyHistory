@@ -148,7 +148,7 @@ export function TimelineCard({
                                     backgroundColor: accentColor,
                                 }}
                             >
-                                {isPlaying ? "Pause Audio" : "Play Audio"}
+                                {isPlaying ? "⏸️" : "🔉"}
                             </button>
 
                             <audio
