@@ -42,7 +42,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "🤝",
     color: "#F59E0B",
     metaItems: ["зерно", "скот", "рыба", "меха"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/бартер обр.mp3"
   },
   {
     id: 2,
@@ -70,7 +70,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "🐚",
     color: "#3B82F6",
     metaItems: ["ракушки", "чай", "скот", "соль"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/товарные вещи обр.mp3"
   },
   {
     id: 3,
@@ -89,7 +89,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "⚒️",
     color: "#EF4444",
     metaItems: ["металлические слитки", "бруски", "куски серебра", "металлические кольца"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/металл обр.mp3"
   },
   {
     id: 4,
@@ -113,7 +113,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "⚒️",
     color: "#8B5CF6",
     metaItems: ["золотые монеты", "серебряные монеты", "медные монеты"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/монеты обр.mp3"
   },
   {
     id: 5,
@@ -136,7 +136,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "📜",
     color: "#10B981",
     metaItems: ["денежные расписки", "бумажные купюры"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/легкие деньги обр.mp3"
   },
   {
     id: 6,
@@ -159,7 +159,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "🏛️",
     color: "#F97316",
     metaItems: ["банковские расписки", "чеки", "записки на счетах"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/банк обр.mp3"
   },
   {
     id: 7,
@@ -180,7 +180,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "💳",
     color: "#06B6D4",
     metaItems: ["банковские карты", "онлайн переводы", "мобильные платежи"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/в компе обр.mp3"
   },
   {
     id: 8,
@@ -195,10 +195,10 @@ export const milestones: TimelineMilestone[] = [
         "Такие деньги защищены сложными цифровыми кодами.\n" +
         "\n" +
         "Они работают через интернет и специальную систему хранения данных.",
-    imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop",
+    imageUrl: "src/images/crypto.jpg",
     icon: "🌐",
     color: "#EC4899",
     metaItems: ["криптовалюты", "цифровые токены"],
-    audioUrl: "src/audio/test.mp3"
+    audioUrl: "src/audio/cripto.mp3"
   },
 ];
