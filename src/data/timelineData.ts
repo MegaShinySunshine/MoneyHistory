@@ -44,7 +44,7 @@ export const milestones: TimelineMilestone[] = [
     color: "#F59E0B",
     metaItems: ["зерно", "скот", "рыба", "меха"],
     audioUrl: "src/audio/бартер обр.mp3",
-    imageBeside: "src/images/intro_man.png",
+    imageBeside: "src/images/man_4.png",
   },
   {
     id: 2,
@@ -72,7 +72,8 @@ export const milestones: TimelineMilestone[] = [
     icon: "🐚",
     color: "#3B82F6",
     metaItems: ["ракушки", "чай", "скот", "соль"],
-    audioUrl: "src/audio/товарные вещи обр.mp3"
+    audioUrl: "src/audio/товарные вещи обр.mp3",
+    imageBeside: "src/images/man_3.png",
   },
   {
     id: 3,
@@ -91,7 +92,8 @@ export const milestones: TimelineMilestone[] = [
     icon: "⚒️",
     color: "#EF4444",
     metaItems: ["металлические слитки", "бруски", "куски серебра", "металлические кольца"],
-    audioUrl: "src/audio/металл обр.mp3"
+    audioUrl: "src/audio/металл обр.mp3",
+    imageBeside: "src/images/man_4.png",
   },
   {
     id: 4,
@@ -115,7 +117,8 @@ export const milestones: TimelineMilestone[] = [
     icon: "⚒️",
     color: "#8B5CF6",
     metaItems: ["золотые монеты", "серебряные монеты", "медные монеты"],
-    audioUrl: "src/audio/монеты обр.mp3"
+    audioUrl: "src/audio/монеты обр.mp3",
+    imageBeside: "src/images/man_2.png",
   },
   {
     id: 5,
@@ -138,7 +141,8 @@ export const milestones: TimelineMilestone[] = [
     icon: "📜",
     color: "#10B981",
     metaItems: ["денежные расписки", "бумажные купюры"],
-    audioUrl: "src/audio/легкие деньги обр.mp3"
+    audioUrl: "src/audio/легкие деньги обр.mp3",
+    imageBeside: "src/images/man_3.png",
   },
   {
     id: 6,
@@ -161,7 +165,8 @@ export const milestones: TimelineMilestone[] = [
     icon: "🏛️",
     color: "#F97316",
     metaItems: ["банковские расписки", "чеки", "записки на счетах"],
-    audioUrl: "src/audio/банк обр.mp3"
+    audioUrl: "src/audio/банк обр.mp3",
+    imageBeside: "src/images/man_1.png",
   },
   {
     id: 7,
@@ -182,7 +187,8 @@ export const milestones: TimelineMilestone[] = [
     icon: "💳",
     color: "#06B6D4",
     metaItems: ["банковские карты", "онлайн переводы", "мобильные платежи"],
-    audioUrl: "src/audio/в компе обр.mp3"
+    audioUrl: "src/audio/в компе обр.mp3",
+    imageBeside: "src/images/man_3.png",
   },
   {
     id: 8,
@@ -201,6 +207,7 @@ export const milestones: TimelineMilestone[] = [
     icon: "🌐",
     color: "#EC4899",
     metaItems: ["криптовалюты", "цифровые токены"],
-    audioUrl: "src/audio/cripto.mp3"
+    audioUrl: "src/audio/cripto.mp3",
+    imageBeside: "src/images/man_4.png",
   },
 ];
