@@ -156,9 +156,9 @@ export function Hero() {
                         <img
                             src="src/images/intro_man.png"
                             alt="Friendly Time Traveler"
-                            className="h-auto w-full max-w-sm transform rounded-2xl md:max-w-md"
+                            /* Increased max-width and removed restrictive classes */
+                            className="h-auto w-full max-w-lg transform rounded-3xl transition-transform duration-500 group-hover:scale-[1.02] md:max-w-2xl lg:max-w-3xl"
                         />
-
                         {/* The hidden audio engine */}
                         <audio
                             ref={audioRef}
