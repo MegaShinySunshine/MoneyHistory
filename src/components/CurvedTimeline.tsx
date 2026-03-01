@@ -216,20 +216,26 @@ export function CurvedTimeline() {
                     />
                   </div>
 
+                  {/* 2. THE FLOATING ILLUSTRATION (Opposite Side) */}
                   <div
-                      className="floating-image absolute hidden lg:flex items-center justify-center overflow-hidden rounded-2xl shadow-2xl border-4"
+                      className="floating-image absolute hidden lg:flex items-center justify-center pointer-events-none"
                       style={{
                         left: `${leftPercent}%`,
                         top: `${topPercent}%`,
-                        width: "320px",
-                        height: "220px",
-                        transform: `translate(${isLeft ? "15%" : "-115%"}, -50%)`,
-                        borderColor: milestone.color,
-                        backgroundColor: "#fff",
-                        pointerEvents: "none",
+                        // Increased size: 500px makes it significantly bigger than the previous 320px
+                        width: "500px",
+                        height: "500px",
+                        // Adjusted translate to prevent it from overlapping the dot too much
+                        transform: `translate(${isLeft ? "10%" : "-110%"}, -50%)`,
+                        zIndex: 5,
                       }}
                   >
-                    <img src={milestone.imageUrl} alt={milestone.title} className="h-full w-full object-cover" />
+                    <img
+                        src={milestone.imageBeside}
+                        alt={milestone.title}
+                        // object-contain is key for frameless illustrations
+                        className="max-w-full max-h-full object-contain filter drop-shadow-2xl transition-transform duration-700 hover:scale-110"
+                    />
                   </div>
                 </div>
             );
