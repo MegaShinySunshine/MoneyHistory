@@ -39,7 +39,7 @@ export const milestones: TimelineMilestone[] = [
         "- Некоторые товары быстро портились.\n" +
         "\n" +
         "Люди поняли: нужен более удобный способ обмена",
-    imageUrl: "src/images/Gemini_Generated_Image_heqt56heqt56heqt.png",
+    imageUrl: "src/images/money_1.png",
     icon: "🤝",
     color: "#F59E0B",
     metaItems: ["зерно", "скот", "рыба", "меха"],
@@ -68,7 +68,7 @@ export const milestones: TimelineMilestone[] = [
         "\n" +
         "- Их было трудно носить с собой.\n" +
         "- Они могли испортиться или сломаться.",
-    imageUrl: "src/images/Gemini_Generated_Image_xshyxxxshyxxxshy.png",
+    imageUrl: "src/images/money_2.png",
     icon: "🐚",
     color: "#3B82F6",
     metaItems: ["ракушки", "чай", "скот", "соль"],
@@ -88,7 +88,7 @@ export const milestones: TimelineMilestone[] = [
         "Но каждый раз нужно было взвешивать металл, чтобы понять, сколько он стоит. Это было неудобно и занимало время.\n" +
         "\n" +
         "Люди начали задумываться: а что если сразу сделать одинаковые кусочки с известным весом?",
-    imageUrl: "src/images/Gemini_Generated_Image_93o7v493o7v493o7.png",
+    imageUrl: "src/images/money_3.png",
     icon: "⚒️",
     color: "#EF4444",
     metaItems: ["металлические слитки", "бруски", "куски серебра", "металлические кольца"],
@@ -113,7 +113,7 @@ export const milestones: TimelineMilestone[] = [
         "\n" +
         "Монеты быстро распространились по другим странам. " +
         "Первые монеты появились в государстве Лидия.",
-    imageUrl: "src/images/Gemini_Generated_Image_epahs1epahs1epah.png",
+    imageUrl: "src/images/money_4.png",
     icon: "⚒️",
     color: "#8B5CF6",
     metaItems: ["золотые монеты", "серебряные монеты", "медные монеты"],
@@ -137,7 +137,7 @@ export const milestones: TimelineMilestone[] = [
         "- удобнее хранить\n" +
         "\n" +
         "Позже бумажные деньги появились и в других странах.",
-    imageUrl: "src/images/Gemini_Generated_Image_u9ovrmu9ovrmu9ov.png",
+    imageUrl: "src/images/money_5.png",
     icon: "📜",
     color: "#10B981",
     metaItems: ["денежные расписки", "бумажные купюры"],
@@ -161,7 +161,7 @@ export const milestones: TimelineMilestone[] = [
         "Иногда деньги даже не передавались физически — просто делалась запись в книге банка.\n" +
         "\n" +
         "Так деньги стали «невидимыми», но по-прежнему реальными.",
-    imageUrl: "src/images/Gemini_Generated_Image_e8oo40e8oo40e8oo.png",
+    imageUrl: "src/images/money_6.png",
     icon: "🏛️",
     color: "#F97316",
     metaItems: ["банковские расписки", "чеки", "записки на счетах"],
@@ -183,7 +183,7 @@ export const milestones: TimelineMilestone[] = [
         "- переводить деньги через интернет\n" +
         "\n" +
         "Физических денег в руках может и не быть, но сумма хранится в банке в виде цифр.",
-    imageUrl: "src/images/Gemini_Generated_Image_t34037t34037t340.png",
+    imageUrl: "src/images/money_7.png",
     icon: "💳",
     color: "#06B6D4",
     metaItems: ["банковские карты", "онлайн переводы", "мобильные платежи"],
