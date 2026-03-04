@@ -117,70 +117,58 @@ export function TimelineCard({
             }
             tabIndex={onClick ? 0 : undefined}
         >
-          {expanded ? (
-              <>
-                <div className="cardTop">
-                  {/* Increased height for the image area in expanded mode */}
-                  <div className="imgWrap" style={{ height: "320px" }}>
-                    <img
-                        src={finalImage}
-                        alt={imageAlt || finalTitle}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                    />
-                  </div>
-                  <div className="date">{finalYear}</div>
-                </div>
+            {expanded ? (
+                <>
+                    <div className="cardTop relative">
+                        {/* Emoji overlay on image */}
+                        <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 text-6xl opacity-90">
+                            {finalIcon}
+                        </div>
 
-                <div className="cardBody">
-                  <h2 className="text-2xl font-bold mb-4">{finalTitle}</h2>
-                    <p className="whitespace-pre-wrap mb-6">{finalDescription}</p>
-
-                    {milestone?.audioUrl && (
-                        <div className="mt-4">
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleAudio();
-                                }}
-                                className="px-5 py-2 rounded-full font-medium text-white transition"
-                                style={{
-                                    backgroundColor: accentColor,
-                                }}
-                            >
-                                {isPlaying ? "⏸️" : "🔉"}
-                            </button>
-
-                            <audio
-                                ref={audioRef}
-                                src={milestone.audioUrl}
-                                onEnded={() => setIsPlaying(false)}
+                        <div className="imgWrap" style={{ height: "400px" }}>
+                            <img
+                                src={finalImage}
+                                alt={imageAlt || finalTitle}
+                                className="w-full h-full object-cover rounded-t-2xl"
+                                loading="lazy"
                             />
                         </div>
-                    )}
-                    {/* Meta list removed here for a cleaner "Full Story" look */}
-                </div>
-              </>
-          ) : (
-              <div className="cardBody cardBodyPreview">
-                <div className="previewHeader">
-                  <div className="previewIcon" aria-hidden="true">
-                    {finalIcon}
-                  </div>
-                  <div className="previewYear">{finalYear}</div>
-                </div>
 
-                <p className="previewSummary">{finalSummary}</p>
-
-                {finalMeta.length > 0 && (
-                    <ul className="meta">
-                      {finalMeta.map((item, i) => (
-                          <li key={i}>{item}</li>
-                      ))}
-                    </ul>
-                )}
-              </div>
-          )}
+                        {/* Audio button centered at bottom */}
+                        {milestone?.audioUrl && (
+                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleAudio();
+                                    }}
+                                    className="p-4 rounded-full text-white shadow-2xl transition-all hover:scale-110"
+                                    style={{
+                                        backgroundColor: accentColor,
+                                    }}
+                                >
+                                    <audio  // ← ADD src HERE
+                                        ref={audioRef}
+                                        src={milestone.audioUrl}  // ← THIS LINE
+                                        onEnded={() => setIsPlaying(false)}
+                                    />
+                                    {isPlaying ? "⏸️" : "🔉"}
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </>
+            ) : (
+                // ← IMAGE PREVIEW MODE (shows by default, before clicking)
+                <div className="cardBody cardBodyPreview relative h-64 overflow-hidden rounded-lg">
+                    {/* Secondary teaser image */}
+                    <img
+                        src={milestone?.imageIcon || finalImage}
+                        alt={finalTitle}
+                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                    />
+                </div>
+            )}
         </div>
       </article>
   );

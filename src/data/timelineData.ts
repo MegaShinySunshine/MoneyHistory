@@ -6,7 +6,7 @@ export interface TimelineMilestone {
   id: number;
   year: string;
   title: string;
-  summary: string;
+  imageIcon: string;
   description: string;
   imageUrl: string;
   icon: string;
@@ -22,7 +22,7 @@ export const milestones: TimelineMilestone[] = [
     id: 1,
     year: "древнейшие времена – до VII века до н. э.",
     title: "Натуральный обмен (Бартер)",
-    summary: "«Меняемся без денег»",
+    imageIcon: "src/images/barter_iconImage.png",
     description:
       "Когда люди жили племенами и только научились выращивать хлеб и разводить животных, денег ещё не существовало. Каждый человек делал что-то своё: один выращивал пшеницу, другой ловил рыбу, третий шил одежду.\n" +
         "\n" +
@@ -39,7 +39,7 @@ export const milestones: TimelineMilestone[] = [
         "- Некоторые товары быстро портились.\n" +
         "\n" +
         "Люди поняли: нужен более удобный способ обмена",
-    imageUrl: "src/images/money_1.png",
+    imageUrl: "src/images/barter.png",
     icon: "🤝",
     color: "#F59E0B",
     metaItems: ["зерно", "скот", "рыба", "меха"],
@@ -50,7 +50,7 @@ export const milestones: TimelineMilestone[] = [
     id: 2,
     year: "примерно 3000–700 гг. до н. э.",
     title: "Товарные деньги",
-    summary: "«Деньги-вещи».",
+    imageIcon: "src/images/money_items.png",
     description:
       "Со временем люди заметили, что некоторые предметы особенно ценятся всеми. Их удобно хранить, они не портятся и их можно разделить.\n" +
         "\n" +
@@ -79,7 +79,7 @@ export const milestones: TimelineMilestone[] = [
     id: 3,
     year: "примерно 2000–700 гг. до н. э.",
     title: "Металлические деньги до чеканки",
-    summary: "«Кусочки металла»",
+    imageIcon: "src/images/metal_pieces.png",
     description:
       "Люди стали использовать металл — медь, бронзу, серебро. Металл не гниёт, не рвётся, его можно переплавить и сделать новую форму.\n" +
         "\n" +
@@ -99,7 +99,7 @@ export const milestones: TimelineMilestone[] = [
     id: 4,
     year: "VII век до н. э.",
     title: "Первые монеты",
-    summary: "«Деньги с печатью»",
+    imageIcon: "src/images/coin.png",
     description:
       "Люди придумали делать круглые металлические деньги и ставить на них специальную печать правителя.\n" +
         "\n" +
@@ -124,7 +124,7 @@ export const milestones: TimelineMilestone[] = [
     id: 5,
     year: "VII–XI века н. э.",
     title: "Бумажные деньги",
-    summary: "«Лёгкие деньги»",
+    imageIcon: "src/images/easy_money.png",
     description:
       "Первые бумажные деньги появились в Китае. Монеты были тяжёлыми. Купцы перевозили их мешками. Это было неудобно и небезопасно.\n" +
         "\n" +
@@ -148,7 +148,7 @@ export const milestones: TimelineMilestone[] = [
     id: 6,
     year: "XV–XVII века",
     title: "Банковские деньги",
-    summary: " «Деньги на хранении»",
+    imageIcon: "src/images/bank.png",
     description:
       "Появились банки — специальные учреждения для хранения денег.\n" +
         "\n" +
@@ -169,10 +169,22 @@ export const milestones: TimelineMilestone[] = [
     imageBeside: "src/images/man_1.png",
   },
   {
-    id: 7,
+    id: 7,  // or 7
+    year: "XIX век",
+    title: "Дополнительный этап",
+    imageIcon: "src/images/placeholder.png",
+    description: "Временный заглушка для тестирования.",
+    imageUrl: "src/images/placeholder.jpg",
+    icon: "🔧",
+    color: "#9CA3AF",
+    audioUrl: "src/audio/placeholder.mp3",
+    imageBeside: "src/images/man_placeholder.png",
+  },
+  {
+    id: 8,
     year: "XX век – настоящее время",
     title: "Безналичные и электронные деньги",
-    summary: "«Деньги в компьютере»",
+    imageIcon: "src/images/credit_card.png",
     description:
         "С развитием технологий деньги стали храниться в электронном виде.\n" +
         "\n" +
@@ -191,10 +203,10 @@ export const milestones: TimelineMilestone[] = [
     imageBeside: "src/images/man_3.png",
   },
   {
-    id: 8,
+    id: 9,
     year: "XXI век",
     title: "Цифровые деньги и криптовалюта",
-    summary: "«Интернет-деньги нового поколения»",
+    imageIcon: "src/images/bitcoin.png",
     description:
       "Появились деньги, которые существуют только в цифровом виде и не принадлежат одному государству или банку.\n" +
         "\n" +

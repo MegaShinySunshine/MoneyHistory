@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { milestones } from "@/data/timelineData";
 import { TimelineCard } from "./TimelineCard";
-import { FullCardModal } from "./FullCardModal";
-import type { TimelineMilestone } from "@/data/timelineData";
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -58,8 +56,6 @@ export function CurvedTimeline() {
   const dotRefs = useRef<(SVGCircleElement | null)[]>([]);
   const tracerRef = useRef<SVGCircleElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const [selectedMilestone, setSelectedMilestone] = useState<TimelineMilestone | null>(null);
   const [expandedCardIndex, setExpandedCardIndex] = useState<number | null>(null);
 
   const expandCard = useCallback((index: number) => {
@@ -88,6 +84,7 @@ export function CurvedTimeline() {
   const { pathD, points } = buildCurvePath(milestones.length, CONTAINER_WIDTH, SEGMENT_HEIGHT);
 
   useEffect(() => {
+    ScrollTrigger.refresh();
     const ctx = gsap.context(() => {
       const tracePath = tracePathRef.current;
       const tracer = tracerRef.current;
@@ -151,8 +148,11 @@ export function CurvedTimeline() {
         }
       });
     }, containerRef);
-    return () => ctx.revert();
-  }, []);
+    return () => {
+      ctx.revert();
+      ScrollTrigger.refresh();
+    }
+  }, [milestones.length, TOTAL_HEIGHT]);
 
   return (
       <>
@@ -198,12 +198,13 @@ export function CurvedTimeline() {
                 <div key={`milestone-group-${milestone.id}`}>
                   <div
                       ref={setCardRef(i)}
-                      className="absolute w-[min(480px,90%)]"
+                      className="absolute"
                       style={{
                         left: `${leftPercent}%`,
                         top: `${topPercent}%`,
                         transform: `translate(${isLeft ? "-105%" : "5%"}, -50%)`,
                         zIndex: expandedCardIndex === i ? 50 : 1,
+                        width: "480px",
                       }}
                   >
                     <TimelineCard
@@ -223,8 +224,8 @@ export function CurvedTimeline() {
                         left: `${leftPercent}%`,
                         top: `${topPercent}%`,
                         // Increased size: 500px makes it significantly bigger than the previous 320px
-                        width: "500px",
-                        height: "500px",
+                        width: "700px",
+                        height: "700px",
                         // Adjusted translate to prevent it from overlapping the dot too much
                         transform: `translate(${isLeft ? "10%" : "-110%"}, -50%)`,
                         zIndex: 5,
@@ -241,10 +242,6 @@ export function CurvedTimeline() {
             );
           })}
         </div>
-
-        {selectedMilestone && (
-            <FullCardModal milestone={selectedMilestone} onClose={() => setSelectedMilestone(null)} />
-        )}
       </>
   );
 }

@@ -111,55 +111,26 @@ export function Hero() {
                 История возникновения денег
             </h1>
 
-            {/* Main Content (Split Layout) */}
+            {/* Main Content - Centered Large Image */}
             <div
                 ref={contentGridRef}
-                className="content-container mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 md:grid-cols-2 md:text-left"
+                className="flex w-full flex-col items-center justify-center md:flex-row md:gap-16"
                 style={{ opacity: 0 }}
             >
-                {/* Left Column: Text */}
-                <div className="space-y-6 text-lg text-slate-600 sm:text-xl md:max-w-2xl">
-                    <p className="font-semibold text-violet-700 md:text-2xl">
-                        Здравствуйте, ребята! 🌟
-                    </p>
-                    <p>
-                        Я — весёлый сказочный Путешественник по Времени, и сегодня я
-                        приглашаю вас в удивительное приключение! Хотите узнать, откуда
-                        появились деньги и почему люди ими пользуются?
-                    </p>
-                    <p>
-                        Давным-давно никаких монет и купюр не было, и люди обменивались тем,
-                        что умели делать сами. Это было непросто, но очень интересно! Мы с
-                        вами отправимся в прошлое, познакомимся с древними людьми, увидим
-                        первые монеты и даже узнаем, как появились бумажные деньги.
-                    </p>
-                    <p>
-                        Я расскажу вам эту историю просто и понятно, с секретами и
-                        маленькими чудесами. Готовы открыть тайну денег?
-                    </p>
-                    <p className="font-semibold text-emerald-700 md:text-2xl">
-                        Тогда вперёд — наше путешествие начинается! 🚀✨
-                    </p>
-                </div>
-
-                <div className="flex items-center justify-center md:justify-end">
+                <div className="flex items-center justify-center">
                     <div
                         ref={audioImageRef}
                         onClick={handleAudioClick}
-                        /* role="button" and tabIndex still used for accessibility without visual button styling */
                         role="button"
                         tabIndex={0}
                         className="group relative cursor-pointer"
-                        style={{ opacity: 0 }} // Controlled by your GSAP timeline
+                        style={{ opacity: 0 }}
                     >
-                        {/* Clean image, no frame, no padding, no ring */}
                         <img
                             src="src/images/intro_man.png"
                             alt="Friendly Time Traveler"
-                            /* Increased max-width and removed restrictive classes */
-                            className="h-auto w-full max-w-lg transform rounded-3xl transition-transform duration-500 group-hover:scale-[1.02] md:max-w-2xl lg:max-w-3xl"
+                            className="h-auto w-full max-w-2xl rounded-3xl transition-transform duration-500 group-hover:scale-[1.02] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl"
                         />
-                        {/* The hidden audio engine */}
                         <audio
                             ref={audioRef}
                             src="src/audio/intro.mp3"
