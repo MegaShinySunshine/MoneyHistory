@@ -56,6 +56,8 @@ export function CurvedTimeline() {
   const dotRefs = useRef<(SVGCircleElement | null)[]>([]);
   const tracerRef = useRef<SVGCircleElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const parallaxRefs = useRef<(HTMLDivElement | null)[]>([]); // For background elements
+
   const [expandedCardIndex, setExpandedCardIndex] = useState<number | null>(null);
 
   const expandCard = useCallback((index: number) => {
@@ -94,6 +96,7 @@ export function CurvedTimeline() {
       gsap.set(tracePath, { strokeDasharray: totalLen, strokeDashoffset: totalLen });
       gsap.set(tracer, { opacity: 0 });
 
+      // 1. MAIN PATH TIMELINE
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -111,10 +114,26 @@ export function CurvedTimeline() {
         ease: "none",
       }, 0);
 
+      // 2. PARALLAX EFFECT FOR DECORATIONS
+      parallaxRefs.current.forEach((el) => {
+        if (!el) return;
+        const speed = parseFloat(el.getAttribute("data-speed") || "0");
+        gsap.to(el, {
+          y: -500 * speed, // Move element up/down based on speed
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+          }
+        });
+      });
+
+      // 3. CARD & DOT ANIMATIONS
       milestones.forEach((_, i) => {
         const dot = dotRefs.current[i];
         const card = cardRefs.current[i];
-        // Target the floating image container
         const imageContainer = card?.parentElement?.querySelector('.floating-image');
 
         if (!dot || !card) return;
@@ -133,10 +152,11 @@ export function CurvedTimeline() {
 
         if (imageContainer) {
           gsap.fromTo(imageContainer,
-              { opacity: 0, scale: 0.8 },
+              { opacity: 0, scale: 0.8, y: 50 },
               {
                 opacity: 1,
                 scale: 1,
+                y: 0,
                 duration: 0.8,
                 scrollTrigger: {
                   trigger: card,
@@ -152,13 +172,27 @@ export function CurvedTimeline() {
       ctx.revert();
       ScrollTrigger.refresh();
     }
-  }, [milestones.length, TOTAL_HEIGHT]);
+  }, [milestones.length]);
 
   return (
-      <>
+      <div className="relative w-full overflow-hidden bg-gradient-to-b from-[#f0f9ff] via-[#e0f2fe] to-[#dcfce7] selection:bg-pink-200">
+
+        {/* PARALLAX BACKGROUND DECORATIONS */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          {/* These items move at different speeds creating depth */}
+          {/* Wrap the assignment in braces so it doesn't return the element */}
+          <div ref={el => { parallaxRefs.current[0] = el; }} data-speed="0.2" className="absolute top-[5%] left-[10%] text-9xl opacity-40">☁️</div>
+          <div ref={el => { parallaxRefs.current[1] = el; }} data-speed="0.5" className="absolute top-[20%] right-[5%] text-8xl opacity-30">🎈</div>
+          <div ref={el => { parallaxRefs.current[2] = el; }} data-speed="0.3" className="absolute top-[40%] left-[15%] text-9xl opacity-25">☁️</div>
+          <div ref={el => { parallaxRefs.current[3] = el; }} data-speed="0.8" className="absolute top-[60%] right-[10%] text-7xl opacity-30">🕊️</div>
+          <div ref={el => { parallaxRefs.current[4] = el; }} data-speed="0.4" className="absolute top-[80%] left-[5%] text-9xl opacity-30">☁️</div>
+          {/* Subtle Texture Overlay */}
+          <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/p6.png')]"></div>
+        </div>
+
         <div
             ref={containerRef}
-            className="relative mx-auto w-full px-4"
+            className="relative mx-auto w-full px-4 pt-20 pb-40"
             style={{ maxWidth: CONTAINER_WIDTH, height: TOTAL_HEIGHT }}
         >
           <svg
@@ -173,19 +207,35 @@ export function CurvedTimeline() {
                 <stop offset="0%" stopColor="#F59E0B" />
                 <stop offset="100%" stopColor="#EC4899" />
               </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
             </defs>
 
-            <path d={pathD} stroke="#e2e8f0" strokeWidth={2} fill="none" strokeDasharray="8 6" />
-            <path ref={tracePathRef} d={pathD} stroke="url(#curveGradient)" strokeWidth={5} fill="none" />
+            {/* Background dashed path */}
+            <path d={pathD} stroke="#e2e8f0" strokeWidth={3} fill="none" strokeDasharray="12 8" strokeLinecap="round" />
+
+            {/* Animated trace path */}
+            <path ref={tracePathRef} d={pathD} stroke="url(#curveGradient)" strokeWidth={6} fill="none" strokeLinecap="round" style={{ filter: 'url(#glow)' }} />
 
             {points.map((pt, i) => (
-                <g key={`dot-${milestones[i].id}`} style={{ cursor: "pointer" }} onClick={() => expandCard(i)}>
-                  <circle cx={pt.x} cy={pt.y} r={22} fill="transparent" />
-                  <circle cx={pt.x} cy={pt.y} r={9} ref={(el) => { dotRefs.current[i] = el; }} fill={milestones[i].color} stroke="white" strokeWidth={3} />
+                <g key={`dot-group-${milestones[i].id}`} style={{ cursor: "pointer" }} onClick={() => expandCard(i)}>
+                  <circle cx={pt.x} cy={pt.y} r={30} fill="transparent" />
+                  <circle
+                      cx={pt.x}
+                      cy={pt.y}
+                      r={12}
+                      ref={(el) => { dotRefs.current[i] = el; }}
+                      fill={milestones[i].color}
+                      stroke="white"
+                      strokeWidth={4}
+                      className="drop-shadow-lg"
+                  />
                 </g>
             ))}
 
-            <circle ref={tracerRef} r={12} fill="#FFFFFF" stroke="#3B82F6" strokeWidth={4} style={{ visibility: "hidden" }} />
+            <circle ref={tracerRef} r={14} fill="#FFFFFF" stroke="#3B82F6" strokeWidth={5} className="drop-shadow-md" />
           </svg>
 
           {points.map((pt, i) => {
@@ -196,14 +246,15 @@ export function CurvedTimeline() {
 
             return (
                 <div key={`milestone-group-${milestone.id}`}>
+                  {/* 1. THE CARD */}
                   <div
                       ref={setCardRef(i)}
-                      className="absolute"
+                      className="absolute transition-all duration-500 ease-out"
                       style={{
                         left: `${leftPercent}%`,
                         top: `${topPercent}%`,
                         transform: `translate(${isLeft ? "-105%" : "5%"}, -50%)`,
-                        zIndex: expandedCardIndex === i ? 50 : 1,
+                        zIndex: expandedCardIndex === i ? 50 : 10,
                         width: "480px",
                       }}
                   >
@@ -217,30 +268,28 @@ export function CurvedTimeline() {
                     />
                   </div>
 
-                  {/* 2. THE FLOATING ILLUSTRATION (Opposite Side) */}
+                  {/* 2. THE FLOATING ILLUSTRATION */}
                   <div
                       className="floating-image absolute hidden lg:flex items-center justify-center pointer-events-none"
                       style={{
                         left: `${leftPercent}%`,
                         top: `${topPercent}%`,
-                        // Increased size: 500px makes it significantly bigger than the previous 320px
-                        width: "700px",
-                        height: "700px",
-                        // Adjusted translate to prevent it from overlapping the dot too much
-                        transform: `translate(${isLeft ? "10%" : "-110%"}, -50%)`,
+                        width: "600px",
+                        height: "600px",
+                        transform: `translate(${isLeft ? "15%" : "-115%"}, -50%)`,
                         zIndex: 5,
                       }}
                   >
                     <img
                         src={milestone.imageBeside}
-                        // object-contain is key for frameless illustrations
-                        className="max-w-full max-h-full object-contain filter drop-shadow-2xl transition-transform duration-700 hover:scale-110"
+                        alt=""
+                        className="max-w-full max-h-full object-contain filter drop-shadow-2xl brightness-105 contrast-105"
                     />
                   </div>
                 </div>
             );
           })}
         </div>
-      </>
+      </div>
   );
 }

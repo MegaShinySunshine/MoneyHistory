@@ -26,7 +26,7 @@ export const milestones: TimelineMilestone[] = [
   },
   {
     id: 2,
-    gameUrl: "-",
+    gameUrl: "https://learningapps.org/display?v=p49mdzdit26",
     imageIcon: "src/images/money_items.png",
     imageUrl: "src/images/money_2.png",
     icon: "🐚",

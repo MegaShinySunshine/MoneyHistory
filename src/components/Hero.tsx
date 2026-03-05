@@ -2,161 +2,170 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 /**
- * Hero section at the top of the page.
- * Animated heading that invites the user to scroll down.
- * Features a split layout on desktop with introductory text
- * and an interactive image that plays an audio greeting.
+ * Вспомогательная функция для объединения классов Tailwind.
  */
+function cn(...classes: (string | boolean | undefined)[]) {
+    return classes.filter(Boolean).join(" ");
+}
+
 export function Hero() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
-    const contentGridRef = useRef<HTMLDivElement>(null); // New ref for the two-column grid
-    const audioImageRef = useRef<HTMLButtonElement>(null); // Ref for the audio image/button
-    const audioRef = useRef<HTMLAudioElement>(null); // Ref for the actual audio element
+    const contentGridRef = useRef<HTMLDivElement>(null);
+    const audioImageRef = useRef<HTMLDivElement>(null);
+    const audioRef = useRef<HTMLAudioElement>(null);
     const arrowRef = useRef<HTMLDivElement>(null);
+    const parallaxItemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-    // Audio playing state
     const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-            tl.fromTo(
-                titleRef.current,
-                { opacity: 0, y: 40 },
-                { opacity: 1, y: 0, duration: 1 }
-            );
+            // 1. Входная анимация элементов
+            tl.fromTo(titleRef.current,
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 1.2 }
+            )
+                .fromTo(contentGridRef.current,
+                    { opacity: 0, scale: 0.9 },
+                    { opacity: 1, scale: 1, duration: 1 },
+                    "-=0.8"
+                )
+                .fromTo(arrowRef.current,
+                    { opacity: 0 },
+                    { opacity: 0.4, duration: 1 }, // Прозрачность как в стилях (opacity-40)
+                    "-=0.5"
+                );
 
-            tl.fromTo(
-                contentGridRef.current,
-                { opacity: 0, y: 30 },
-                { opacity: 1, y: 0, duration: 0.8 },
-                "-=0.5" // Start slightly before the title ends
-            );
-
-            // Simple entry animation for the audio button itself
-            tl.fromTo(
-                audioImageRef.current,
-                { scale: 0, opacity: 0 },
-                { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" },
-                "-=0.4"
-            );
-
-            tl.fromTo(
-                arrowRef.current,
-                { opacity: 0, y: -10 },
-                { opacity: 1, y: 0, duration: 0.6 },
-                "-=0.3"
-            );
-
-            // bouncing arrow loop
-            gsap.to(arrowRef.current, {
-                y: 12,
-                repeat: -1,
-                yoyo: true,
-                duration: 0.8,
-                ease: "power1.inOut",
-                delay: 1.5,
+            // 2. Анимация плавающих элементов фона (Параллакс)
+            parallaxItemsRef.current.forEach((item, i) => {
+                if (!item) return;
+                gsap.to(item, {
+                    y: i % 2 === 0 ? -30 : 30,
+                    repeat: -1,
+                    yoyo: true,
+                    duration: 3 + i, // Чуть медленнее для спокойствия
+                    ease: "sine.inOut"
+                });
             });
+
+            // ПРИМЕЧАНИЕ: Анимация подпрыгивания стрелки удалена по запросу.
+            // Она теперь статична и служит визуальным указателем.
+
         }, containerRef);
 
         return () => ctx.revert();
     }, []);
 
-    /**
-     * Toggles audio play/pause and executes a quick "pop" animation.
-     */
     const handleAudioClick = () => {
         if (!audioRef.current || !audioImageRef.current) return;
 
-        // Trigger click animation with GSAP
-        gsap.timeline({ defaults: { duration: 0.1, ease: "power1.inOut" } })
-            .to(audioImageRef.current, { scale: 0.96 })
-            .to(audioImageRef.current, { scale: 1.05 }) // overshoot slightly
-            .to(audioImageRef.current, { scale: 1 });
+        // Легкая пульсация при клике
+        gsap.to(audioImageRef.current, {
+            scale: 0.98,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1
+        });
 
-        // Handle audio logic
         if (isPlaying) {
             audioRef.current.pause();
         } else {
-            // If played from the start, we might want to reset other audios
             audioRef.current.play();
         }
         setIsPlaying(!isPlaying);
     };
 
-    /**
-     * Reset state when audio finishes naturally
-     */
-    const handleAudioEnd = () => {
-        setIsPlaying(false);
-    };
-
     return (
-        <div
+        <section
             ref={containerRef}
-            className="relative flex min-h-[90vh] flex-col items-center justify-center gap-12 px-6 pt-24 pb-16 text-center md:pt-32"
+            className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#f0f9ff] to-[#e0f2fe] px-6"
         >
-            {/* decorative background blobs */}
-            <div className="pointer-events-none absolute -top-20 left-1/4 h-72 w-72 rounded-full bg-violet-300/20 blur-3xl" />
-            <div className="pointer-events-none absolute -top-10 right-1/4 h-56 w-56 rounded-full bg-amber-300/20 blur-3xl" />
+            {/* ПАРАЛЛАКС ДЕКОР */}
+            <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-30">
+                <div ref={el => { parallaxItemsRef.current[0] = el }} className="absolute top-[15%] left-[10%] text-8xl">☁️</div>
+                <div ref={el => { parallaxItemsRef.current[1] = el }} className="absolute top-[20%] right-[15%] text-7xl">🎈</div>
+                <div ref={el => { parallaxItemsRef.current[2] = el }} className="absolute bottom-[25%] left-[20%] text-6xl">🕊️</div>
+                <div ref={el => { parallaxItemsRef.current[3] = el }} className="absolute bottom-[15%] right-[10%] text-8xl">☁️</div>
+            </div>
 
-            {/* Title */}
-            <h1
-                ref={titleRef}
-                className="mb-4 bg-gradient-to-r from-violet-600 via-blue-500 to-emerald-500 bg-clip-text text-5xl font-extrabold leading-tight text-transparent sm:text-6xl md:text-7xl"
-                style={{ opacity: 0 }}
-            >
-                История возникновения денег
-            </h1>
+            {/* Текстура бумаги */}
+            <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/p6.png')]" />
 
-            {/* Main Content - Centered Large Image */}
-            <div
-                ref={contentGridRef}
-                className="flex w-full flex-col items-center justify-center md:flex-row md:gap-16"
-                style={{ opacity: 0 }}
-            >
-                <div className="flex items-center justify-center">
+            {/* Основной контент */}
+            <div className="relative z-20 flex flex-col items-center gap-8 text-center max-w-6xl pb-24">
+                <h1
+                    ref={titleRef}
+                    className="bg-gradient-to-r from-violet-600 via-blue-500 to-emerald-500 bg-clip-text text-5xl font-extrabold leading-tight text-transparent sm:text-7xl md:text-8xl"
+                >
+                    История денег
+                </h1>
+
+                <p className="max-w-2xl text-lg text-slate-600 md:text-xl">
+                    Нажми на путешественника, чтобы начать наше увлекательное приключение сквозь время!
+                </p>
+
+                <div
+                    ref={contentGridRef}
+                    className="relative group cursor-pointer"
+                    onClick={handleAudioClick}
+                >
+                    {/* Индикатор звука */}
+                    <div className={cn(
+                        "absolute -top-6 -right-6 z-30 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-xl transition-all duration-300 group-hover:scale-110",
+                        isPlaying ? "animate-pulse border-4 border-blue-400" : "border-4 border-transparent"
+                    )}>
+                        <span className="text-3xl">{isPlaying ? "⏸️" : "🔊"}</span>
+                    </div>
+
                     <div
                         ref={audioImageRef}
-                        onClick={handleAudioClick}
-                        role="button"
-                        tabIndex={0}
-                        className="group relative cursor-pointer"
-                        style={{ opacity: 0 }}
+                        className="relative overflow-hidden rounded-[2rem] border-8 border-white bg-white shadow-2xl transition-transform duration-500 group-hover:rotate-1"
                     >
                         <img
                             src="src/images/intro_man.png"
-                            alt="Friendly Time Traveler"
-                            className="h-auto w-full max-w-2xl rounded-3xl transition-transform duration-500 group-hover:scale-[1.02] md:max-w-4xl lg:max-w-5xl xl:max-w-6xl"
+                            alt="Путешественник"
+                            className="h-auto w-full max-w-4xl transition-all duration-700 group-hover:scale-105"
                         />
-                        <audio
-                            ref={audioRef}
-                            src="src/audio/intro.mp3"
-                            onEnded={handleAudioEnd}
-                            preload="metadata"
-                        />
+                        <div className={cn(
+                            "absolute inset-0 bg-blue-500/10 transition-opacity duration-500",
+                            isPlaying ? "opacity-100" : "opacity-0"
+                        )} />
                     </div>
+
+                    <audio
+                        ref={audioRef}
+                        src="src/audio/intro.mp3"
+                        onEnded={() => setIsPlaying(false)}
+                        preload="metadata"
+                    />
                 </div>
             </div>
 
-            {/* scroll-down arrow */}
-            <div ref={arrowRef} className="mt-8" style={{ opacity: 0 }}>
+            {/* СТАТИЧНАЯ СТРЕЛКА (z-20: выше фона и волны, но ниже таймлайна) */}
+            <div
+                ref={arrowRef}
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 pb-6 flex flex-col items-center opacity-40 pointer-events-none"
+            >
                 <svg
-                    className="h-8 w-8 text-slate-400 md:h-12 md:w-12"
+                    className="h-10 w-10 text-blue-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2}
+                    strokeWidth={3}
                 >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19 9l-7 7-7-7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
             </div>
-        </div>
+
+            {/* SVG Wave (z-10: самый нижний слой декора) */}
+            <div className="absolute bottom-0 left-0 w-full leading-[0] z-10">
+                <svg className="h-24 w-full fill-white" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" />
+                </svg>
+            </div>
+        </section>
     );
 }

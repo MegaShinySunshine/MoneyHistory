@@ -1,75 +1,82 @@
 export function Footer() {
     return (
-        <footer className="py-16 text-center">
-            <p className="text-sm text-slate-400 mb-8">
-                Игры для самых внимательных{" "}
-                <span className="text-slate-500 font-medium"></span>
-            </p>
-
-            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-6 items-center">
-                <a
-                    href="https://learningapps.org/watch?v=p5xmn78pc26"
-                    target="_blank"
-                    className="group relative px-10 py-4 rounded-2xl
-        bg-gradient-to-r from-blue-500 to-blue-600
-        text-white font-semibold tracking-wide
-        shadow-lg shadow-blue-500/30
-        hover:shadow-2xl hover:shadow-blue-500/40
-        hover:-translate-y-1
-        active:scale-95
-        transition-all duration-300 ease-out"
+        <footer className="relative pt-32 pb-20 overflow-hidden">
+            {/* 1. SEAMLESS TRANSITION WAVE */}
+            <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform rotate-180">
+                <svg
+                    className="relative block w-[calc(100%+1.3px)] h-[100px]"
+                    viewBox="0 0 1200 120"
+                    preserveAspectRatio="none"
                 >
-                    <span className="relative z-10">Денежное мемо</span>
-                    <span className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition duration-300"></span>
-                </a>
+                    <path
+                        d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                        fill="#dcfce7" /* Matches the bottom of your timeline gradient */
+                    ></path>
+                </svg>
+            </div>
 
-                <a
-                    href="https://learningapps.org/display?v=p49mdzdit26"
-                    target="_blank"
-                    className="group relative px-10 py-4 rounded-2xl
-        bg-gradient-to-r from-emerald-500 to-green-600
-        text-white font-semibold tracking-wide
-        shadow-lg shadow-emerald-500/30
-        hover:shadow-2xl hover:shadow-emerald-500/40
-        hover:-translate-y-1
-        active:scale-95
-        transition-all duration-300 ease-out"
-                >
-                    <span className="relative z-10">Чем оплатим покупку?</span>
-                    <span className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition duration-300"></span>
-                </a>
+            {/* 2. DECORATIVE BACKGROUND ELEMENTS */}
+            <div className="absolute inset-0 pointer-events-none">
+                <span className="absolute left-[10%] bottom-1/4 text-4xl opacity-20 animate-bounce">🌱</span>
+                <span className="absolute right-[15%] top-1/3 text-5xl opacity-20 animate-pulse">🪻</span>
+                <span className="absolute left-1/2 bottom-10 text-3xl opacity-10">🐞</span>
+            </div>
 
-                <a
-                    href="https://learningapps.org/display?v=p9amshxhk26"
-                    target="_blank"
-                    className="group relative px-10 py-4 rounded-2xl
-        bg-gradient-to-r from-violet-500 to-purple-600
-        text-white font-semibold tracking-wide
-        shadow-lg shadow-violet-500/30
-        hover:shadow-2xl hover:shadow-violet-500/40
-        hover:-translate-y-1
-        active:scale-95
-        transition-all duration-300 ease-out"
-                >
-                    <span className="relative z-10">Найди пару</span>
-                    <span className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition duration-300"></span>
-                </a>
+            <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+                <div className="mb-12">
+                    <p className="text-lg text-slate-600">
+                        Закрепи свои знания в весёлых играх для самых внимательных
+                    </p>
+                </div>
 
-                <a
-                    href="https://learningapps.org/display?v=pr3mkx0d326"
-                    target="_blank"
-                    className="group relative px-10 py-4 rounded-2xl
-        bg-gradient-to-r from-pink-500 to-rose-600
-        text-white font-semibold tracking-wide
-        shadow-lg shadow-pink-500/30
-        hover:shadow-2xl hover:shadow-pink-500/40
-        hover:-translate-y-1
-        active:scale-95
-        transition-all duration-300 ease-out"
-                >
-                    <span className="relative z-10">Что сначала — что потом</span>
-                    <span className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 group-hover:opacity-100 transition duration-300"></span>
-                </a>
+                {/* 3. GAME BUTTONS GRID */}
+                <div className="flex flex-wrap justify-center gap-6">
+                    {[
+                        {
+                            name: "Денежное мемо",
+                            url: "https://learningapps.org/watch?v=p5xmn78pc26",
+                            color: "from-blue-500 to-indigo-600",
+                            shadow: "shadow-blue-500/30",
+                            icon: "🪙"
+                        },
+                        {
+                            name: "Чем оплатим покупку?",
+                            url: "https://learningapps.org/display?v=p49mdzdit26",
+                            color: "from-emerald-500 to-teal-600",
+                            shadow: "shadow-emerald-500/30",
+                            icon: "🛒"
+                        },
+                        {
+                            name: "Найди пару",
+                            url: "https://learningapps.org/display?v=p9amshxhk26",
+                            color: "from-violet-500 to-fuchsia-600",
+                            shadow: "shadow-violet-500/30",
+                            icon: "🧩"
+                        },
+                        {
+                            name: "Что сначала — что потом",
+                            url: "https://learningapps.org/display?v=pr3mkx0d326",
+                            color: "from-pink-500 to-rose-600",
+                            shadow: "shadow-pink-500/30",
+                            icon: "⏳"
+                        }
+                    ].map((game) => (
+                        <a
+                            key={game.name}
+                            href={game.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`group relative px-8 py-5 rounded-3xl bg-gradient-to-br ${game.color} 
+                                text-white font-bold text-lg shadow-xl ${game.shadow}
+                                hover:shadow-2xl hover:-translate-y-2 active:scale-95
+                                transition-all duration-300 ease-out flex items-center gap-3`}
+                        >
+                            <span className="text-2xl group-hover:rotate-12 transition-transform">{game.icon}</span>
+                            <span>{game.name}</span>
+                            <span className="absolute inset-0 rounded-3xl bg-white/20 opacity-0 group-hover:opacity-100 transition duration-300"></span>
+                        </a>
+                    ))}
+                </div>
             </div>
         </footer>
     );
