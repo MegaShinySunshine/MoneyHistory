@@ -233,7 +233,6 @@ export function CurvedTimeline() {
                   >
                     <img
                         src={milestone.imageBeside}
-                        alt={milestone.title}
                         // object-contain is key for frameless illustrations
                         className="max-w-full max-h-full object-contain filter drop-shadow-2xl transition-transform duration-700 hover:scale-110"
                     />

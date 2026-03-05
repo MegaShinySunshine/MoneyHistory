@@ -4,15 +4,11 @@
  */
 export interface TimelineMilestone {
   id: number;
-  year: string;
-  title: string;
+  gameUrl: string;
   imageIcon: string;
-  description: string;
   imageUrl: string;
   icon: string;
   color: string;
-  /** Optional bullet points for card meta list (reference-style cards) */
-  metaItems?: string[];
   audioUrl?: string;
   imageBeside?: string;
 }
@@ -20,205 +16,91 @@ export interface TimelineMilestone {
 export const milestones: TimelineMilestone[] = [
   {
     id: 1,
-    year: "древнейшие времена – до VII века до н. э.",
-    title: "Натуральный обмен (Бартер)",
+    gameUrl: "",
     imageIcon: "src/images/barter_iconImage.png",
-    description:
-      "Когда люди жили племенами и только научились выращивать хлеб и разводить животных, денег ещё не существовало. Каждый человек делал что-то своё: один выращивал пшеницу, другой ловил рыбу, третий шил одежду.\n" +
-        "\n" +
-        "Если человеку нужно было то, чего у него нет, он предлагал обмен. Например:\n" +
-        "\n" +
-        "— «Я дам тебе рыбу, а ты мне — горшок».\n" +
-        "\n" +
-        "Это и называется бартер — обмен вещь на вещь.\n" +
-        "\n" +
-        "Но у такого способа были трудности:\n" +
-        "\n" +
-        "- Нужно было найти человека, которому нужно именно то, что есть у тебя.\n" +
-        "- Трудно было понять, сколько яблок равно одной рыбе.\n" +
-        "- Некоторые товары быстро портились.\n" +
-        "\n" +
-        "Люди поняли: нужен более удобный способ обмена",
     imageUrl: "src/images/barter.png",
     icon: "🤝",
     color: "#F59E0B",
-    metaItems: ["зерно", "скот", "рыба", "меха"],
     audioUrl: "src/audio/бартер обр.mp3",
     imageBeside: "src/images/man_4.png",
   },
   {
     id: 2,
-    year: "примерно 3000–700 гг. до н. э.",
-    title: "Товарные деньги",
+    gameUrl: "-",
     imageIcon: "src/images/money_items.png",
-    description:
-      "Со временем люди заметили, что некоторые предметы особенно ценятся всеми. Их удобно хранить, они не портятся и их можно разделить.\n" +
-        "\n" +
-        "Такие предметы начали использовать как универсальный обмен — почти как деньги.\n" +
-        "\n" +
-        "Например:\n" +
-        "\n" +
-        "- В одних странах ценили соль (она была редкой и очень нужной).\n" +
-        "- В других — красивые ракушки.\n" +
-        "- Где-то платили мехами или скотом.\n" +
-        "\n" +
-        "Теперь людям было легче обмениваться, потому что многие соглашались принимать именно эти «ценные вещи».\n" +
-        "\n" +
-        "Но проблема оставалась:\n" +
-        "\n" +
-        "- Их было трудно носить с собой.\n" +
-        "- Они могли испортиться или сломаться.",
     imageUrl: "src/images/money_2.png",
     icon: "🐚",
     color: "#3B82F6",
-    metaItems: ["ракушки", "чай", "скот", "соль"],
     audioUrl: "src/audio/товарные вещи обр.mp3",
     imageBeside: "src/images/man_3.png",
   },
   {
     id: 3,
-    year: "примерно 2000–700 гг. до н. э.",
-    title: "Металлические деньги до чеканки",
+    gameUrl: "примерно 2000–700 гг. до н. э.",
     imageIcon: "src/images/metal_pieces.png",
-    description:
-      "Люди стали использовать металл — медь, бронзу, серебро. Металл не гниёт, не рвётся, его можно переплавить и сделать новую форму.\n" +
-        "\n" +
-        "Металл разрезали на кусочки или отливали небольшими слитками.\n" +
-        "\n" +
-        "Но каждый раз нужно было взвешивать металл, чтобы понять, сколько он стоит. Это было неудобно и занимало время.\n" +
-        "\n" +
-        "Люди начали задумываться: а что если сразу сделать одинаковые кусочки с известным весом?",
     imageUrl: "src/images/money_3.png",
     icon: "⚒️",
     color: "#EF4444",
-    metaItems: ["металлические слитки", "бруски", "куски серебра", "металлические кольца"],
     audioUrl: "src/audio/металл обр.mp3",
     imageBeside: "src/images/man_4.png",
   },
   {
     id: 4,
-    year: "VII век до н. э.",
-    title: "Первые монеты",
+    gameUrl: "VII век до н. э.",
     imageIcon: "src/images/coin.png",
-    description:
-      "Люди придумали делать круглые металлические деньги и ставить на них специальную печать правителя.\n" +
-        "\n" +
-        "Печать означала:\n" +
-        "\n" +
-        "- монета настоящая\n" +
-        "- она имеет определённый вес\n" +
-        "- её можно принимать без взвешивания\n" +
-        "\n" +
-        "Это было огромным шагом вперёд. Торговля стала быстрее и удобнее.\n" +
-        "\n" +
-        "Монеты быстро распространились по другим странам. " +
-        "Первые монеты появились в государстве Лидия.",
     imageUrl: "src/images/money_4.png",
     icon: "⚒️",
     color: "#8B5CF6",
-    metaItems: ["золотые монеты", "серебряные монеты", "медные монеты"],
     audioUrl: "src/audio/монеты обр.mp3",
     imageBeside: "src/images/man_2.png",
   },
   {
     id: 5,
-    year: "VII–XI века н. э.",
-    title: "Бумажные деньги",
+    gameUrl: "VII–XI века н. э.",
     imageIcon: "src/images/easy_money.png",
-    description:
-      "Первые бумажные деньги появились в Китае. Монеты были тяжёлыми. Купцы перевозили их мешками. Это было неудобно и небезопасно.\n" +
-        "\n" +
-        "В Китае придумали выдавать специальные бумажные листы с печатями. Эти листы подтверждали, что человек имеет определённое количество денег.\n" +
-        "\n" +
-        "Бумажные деньги:\n" +
-        "\n" +
-        "- легче носить\n" +
-        "- быстрее считать\n" +
-        "- удобнее хранить\n" +
-        "\n" +
-        "Позже бумажные деньги появились и в других странах.",
     imageUrl: "src/images/money_5.png",
     icon: "📜",
     color: "#10B981",
-    metaItems: ["денежные расписки", "бумажные купюры"],
     audioUrl: "src/audio/легкие деньги обр.mp3",
     imageBeside: "src/images/man_3.png",
   },
   {
     id: 6,
-    year: "XV–XVII века",
-    title: "Банковские деньги",
+    gameUrl: "XV–XVII века",
     imageIcon: "src/images/bank.png",
-    description:
-      "Появились банки — специальные учреждения для хранения денег.\n" +
-        "\n" +
-        "Люди могли:\n" +
-        "\n" +
-        "- положить деньги на хранение\n" +
-        "- получить расписку\n" +
-        "- перевести деньги другому человеку\n" +
-        "\n" +
-        "Иногда деньги даже не передавались физически — просто делалась запись в книге банка.\n" +
-        "\n" +
-        "Так деньги стали «невидимыми», но по-прежнему реальными.",
     imageUrl: "src/images/money_6.png",
     icon: "🏛️",
     color: "#F97316",
-    metaItems: ["банковские расписки", "чеки", "записки на счетах"],
     audioUrl: "src/audio/банк обр.mp3",
-    imageBeside: "src/images/man_1.png",
-  },
-  {
-    id: 7,  // or 7
-    year: "XIX век",
-    title: "Дополнительный этап",
-    imageIcon: "src/images/placeholder.png",
-    description: "Временный заглушка для тестирования.",
-    imageUrl: "src/images/placeholder.jpg",
-    icon: "🔧",
-    color: "#9CA3AF",
-    audioUrl: "src/audio/placeholder.mp3",
-    imageBeside: "src/images/man_placeholder.png",
-  },
-  {
-    id: 8,
-    year: "XX век – настоящее время",
-    title: "Безналичные и электронные деньги",
-    imageIcon: "src/images/credit_card.png",
-    description:
-        "С развитием технологий деньги стали храниться в электронном виде.\n" +
-        "\n" +
-        "Мы можем:\n" +
-        "\n" +
-        "- платить банковской картой\n" +
-        "- оплачивать покупки телефоном\n" +
-        "- переводить деньги через интернет\n" +
-        "\n" +
-        "Физических денег в руках может и не быть, но сумма хранится в банке в виде цифр.",
-    imageUrl: "src/images/money_7.png",
-    icon: "💳",
-    color: "#06B6D4",
-    metaItems: ["банковские карты", "онлайн переводы", "мобильные платежи"],
-    audioUrl: "src/audio/в компе обр.mp3",
     imageBeside: "src/images/man_3.png",
   },
   {
+    id: 7,
+    gameUrl: "https://learningapps.org/watch?v=p5xmn78pc26",
+    imageIcon: "src/images/bel_money_icon.png",
+    imageUrl: "src/images/bel_money.jpg",
+    icon: "🦬",
+    color: "#54d806",
+    audioUrl: "src/audio/test.mp3",
+    imageBeside: "src/images/man_2.png",
+  },
+  { //credit_card
+    id: 8,
+    gameUrl: "https://learningapps.org/view48016199",
+    imageIcon: "src/images/credit_card.png",
+    imageUrl: "src/images/money_7.png",
+    icon: "💳",
+    color: "#06B6D4",
+    audioUrl: "src/audio/в компе обр.mp3",
+    imageBeside: "src/images/man_1.png",
+  },
+  { //crypto
     id: 9,
-    year: "XXI век",
-    title: "Цифровые деньги и криптовалюта",
+    gameUrl: "https://learningapps.org/display?v=pr3mkx0d326",
     imageIcon: "src/images/bitcoin.png",
-    description:
-      "Появились деньги, которые существуют только в цифровом виде и не принадлежат одному государству или банку.\n" +
-        "\n" +
-        "Пример — Bitcoin, созданный в 2009 году.\n" +
-        "\n" +
-        "Такие деньги защищены сложными цифровыми кодами.\n" +
-        "\n" +
-        "Они работают через интернет и специальную систему хранения данных.",
     imageUrl: "src/images/crypto.jpg",
     icon: "🌐",
     color: "#EC4899",
-    metaItems: ["криптовалюты", "цифровые токены"],
     audioUrl: "src/audio/cripto.mp3",
     imageBeside: "src/images/man_4.png",
   },

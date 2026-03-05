@@ -21,27 +21,20 @@ export interface TimelineCardProps {
 export function TimelineCard({
                                imageUrl,
                                imageAlt = "",
-                               date,
                                title,
-                               description,
-                               metaItems = [],
                                side = "left",
                                reveal = true,
                                className,
                                onClick,
                                milestone,
                                showDot = true,
-                               expanded = false, audioUrl=""
+                               expanded = false, audioUrl
                              }: TimelineCardProps) {
   const articleRef = useRef<HTMLElement>(null);
   const [show, setShow] = useState(false);
 
   const finalImage = milestone?.imageUrl ?? imageUrl ?? "";
-  const finalYear = milestone?.year ?? date ?? "";
   const finalTitle = milestone?.title ?? title ?? "";
-  const finalSummary = milestone?.summary ?? "";
-  const finalDescription = milestone?.description ?? description ?? "";
-  const finalMeta = milestone?.metaItems ?? metaItems ?? [];
   const finalIcon = milestone?.icon ?? "";
   const accentColor = milestone?.color ?? "#ff4081";
 
@@ -133,29 +126,40 @@ export function TimelineCard({
                                 loading="lazy"
                             />
                         </div>
-
-                        {/* Audio button centered at bottom */}
-                        {milestone?.audioUrl && (
-                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+                        {/* Dual buttons - split bottom of image */}
+                        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-4">
+                            {/* Audio button (left) */}
+                            {milestone?.audioUrl && (
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         toggleAudio();
                                     }}
-                                    className="p-4 rounded-full text-white shadow-2xl transition-all hover:scale-110"
-                                    style={{
-                                        backgroundColor: accentColor,
-                                    }}
+                                    className="flex-1 p-4 rounded-full text-white shadow-2xl transition-all hover:scale-105"
+                                    style={{ backgroundColor: accentColor }}
                                 >
-                                    <audio  // ← ADD src HERE
+                                    {isPlaying ? "⏸️" : "🔉"}
+                                    <audio
                                         ref={audioRef}
-                                        src={milestone.audioUrl}  // ← THIS LINE
+                                        src={milestone.audioUrl}
                                         onEnded={() => setIsPlaying(false)}
                                     />
-                                    {isPlaying ? "⏸️" : "🔉"}
                                 </button>
-                            </div>
-                        )}
+                            )}
+
+                            {/* Game button (right) */}
+                            {milestone?.gameUrl && (
+                                <a
+                                    href={milestone.gameUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex-1 flex items-center justify-center px-6 py-4 rounded-full font-bold text-white shadow-2xl transition-all hover:scale-105 border-2 border-white/50 hover:border-white"
+                                    style={{ backgroundColor: accentColor }}
+                                >
+                                    🎮
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </>
             ) : (
