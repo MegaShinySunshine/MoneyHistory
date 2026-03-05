@@ -1,7 +1,46 @@
-/**
- * Timeline milestone data.
- * Each item represents a point on the curved timeline path.
- */
+// 1. Импортируем все картинки и аудио (Vite сам подставит правильные пути для Vercel)
+import barterImg from "../images/barter.png";
+import barterIcon from "../images/barter_iconImage.png";
+import man4 from "../images/man_4.png";
+import barterAudio from "../audio/barter.mp3";
+
+import money2 from "../images/money_2.png";
+import moneyItems from "../images/money_items.png";
+import man3 from "../images/man_3.png";
+import thingsAudio from "../audio/things.mp3";
+
+import money3 from "../images/money_3.png";
+import metalPieces from "../images/metal_pieces.png";
+import metallAudio from "../audio/metall.mp3";
+
+import money4 from "../images/money_4.png";
+import coinIcon from "../images/coin.png";
+import man2 from "../images/man_2.png";
+import coinsAudio from "../audio/coins.mp3";
+
+import money5 from "../images/money_5.png";
+import easyMoneyIcon from "../images/easy_money.png";
+import cashAudio from "../audio/cash.mp3";
+
+import money6 from "../images/money_6.png";
+import bankIcon from "../images/bank.png";
+import bankAudio from "../audio/bank_obr.mp3";
+import gymAudio from "../audio/gym_time_complete.mp3";
+
+import belMoneyImg from "../images/bel_money.jpg";
+import belMoneyIcon from "../images/bel_money_icon.png";
+import depIcon from "../images/dep.png";
+import belMoneyAudio from "../audio/bel_money.mp3";
+
+import money7 from "../images/money_7.png";
+import creditCardIcon from "../images/credit_card.png";
+import man1 from "../images/man_1.png";
+import computerAudio from "../audio/in_computer.mp3";
+
+import cryptoImg from "../images/crypto.jpg";
+import bitcoinIcon from "../images/bitcoin.png";
+import criptoAudio from "../audio/cripto.mp3";
+
 export interface TimelineMilestone {
   id: number;
   gameUrl: string;
@@ -17,91 +56,91 @@ export const milestones: TimelineMilestone[] = [
   {
     id: 1,
     gameUrl: "",
-    imageIcon: "src/images/barter_iconImage.png",
-    imageUrl: "src/images/barter.png",
+    imageIcon: barterIcon,
+    imageUrl: barterImg,
     icon: "🤝",
     color: "#F59E0B",
-    audioUrl: "src/audio/barter.mp3",
-    imageBeside: "src/images/man_4.png",
+    audioUrl: barterAudio,
+    imageBeside: man4,
   },
   {
     id: 2,
     gameUrl: "https://learningapps.org/display?v=p49mdzdit26",
-    imageIcon: "src/images/money_items.png",
-    imageUrl: "src/images/money_2.png",
+    imageIcon: moneyItems,
+    imageUrl: money2,
     icon: "🐚",
     color: "#3B82F6",
-    audioUrl: "src/audio/things.mp3",
-    imageBeside: "src/images/man_3.png",
+    audioUrl: thingsAudio,
+    imageBeside: man3,
   },
   {
     id: 3,
     gameUrl: "",
-    imageIcon: "src/images/metal_pieces.png",
-    imageUrl: "src/images/money_3.png",
+    imageIcon: metalPieces,
+    imageUrl: money3,
     icon: "⚒️",
     color: "#EF4444",
-    audioUrl: "src/audio/metall.mp3",
-    imageBeside: "src/images/man_4.png",
+    audioUrl: metallAudio,
+    imageBeside: man4,
   },
   {
     id: 4,
     gameUrl: "https://learningapps.org/view48216354",
-    imageIcon: "src/images/coin.png",
-    imageUrl: "src/images/money_4.png",
+    imageIcon: coinIcon,
+    imageUrl: money4,
     icon: "⚒️",
     color: "#8B5CF6",
-    audioUrl: "src/audio/coins.mp3",
-    imageBeside: "src/images/man_2.png",
+    audioUrl: coinsAudio,
+    imageBeside: man2,
   },
   {
     id: 5,
     gameUrl: "",
-    imageIcon: "src/images/easy_money.png",
-    imageUrl: "src/images/money_5.png",
+    imageIcon: easyMoneyIcon,
+    imageUrl: money5,
     icon: "📜",
     color: "#10B981",
-    audioUrl: "src/audio/cash.mp3",
-    imageBeside: "src/images/man_3.png",
+    audioUrl: cashAudio,
+    imageBeside: man3,
   },
   {
     id: 6,
-    gameUrl: "src/audio/gym_time_complete.mp3",
-    imageIcon: "src/images/bank.png",
-    imageUrl: "src/images/money_6.png",
+    gameUrl: gymAudio, // Это тоже импортированный файл теперь
+    imageIcon: bankIcon,
+    imageUrl: money6,
     icon: "🏛️",
     color: "#F97316",
-    audioUrl: "src/audio/bank_obr.mp3",
-    imageBeside: "src/images/man_3.png",
+    audioUrl: bankAudio,
+    imageBeside: man3,
   },
   {
     id: 7,
     gameUrl: "https://learningapps.org/watch?v=p5xmn78pc26",
-    imageIcon: "src/images/bel_money_icon.png",
-    imageUrl: "src/images/bel_money.jpg",
+    imageIcon: belMoneyIcon,
+    imageUrl: belMoneyImg,
     icon: "🦬",
     color: "#54d806",
-    audioUrl: "src/audio/bel_money.mp3",
-    imageBeside: "src/images/dep.png",
+    audioUrl: belMoneyAudio,
+    imageBeside: depIcon,
   },
-  { //credit_card
+  {
     id: 8,
     gameUrl: "https://learningapps.org/view48016199",
-    imageIcon: "src/images/credit_card.png",
-    imageUrl: "src/images/money_7.png",
+    imageIcon: creditCardIcon,
+    imageUrl: money7,
     icon: "💳",
     color: "#06B6D4",
-    audioUrl: "src/audio/in_computer.mp3",
-    imageBeside: "src/images/man_1.png",
+    audioUrl: computerAudio,
+    imageBeside: man1,
   },
-  { //crypto
+  {
     id: 9,
     gameUrl: "https://learningapps.org/display?v=pr3mkx0d326",
-    imageIcon: "src/images/bitcoin.png",
-    imageUrl: "src/images/crypto.jpg",
+    imageIcon: bitcoinIcon,
+    imageUrl: cryptoImg,
     icon: "🌐",
     color: "#EC4899",
-    audioUrl: "src/audio/cripto.mp3",
-    imageBeside: "src/images/man_4.png",
+    audioUrl: criptoAudio,
+    imageBeside: man4,
   },
 ];
