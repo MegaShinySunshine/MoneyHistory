@@ -1,5 +1,7 @@
 import { useRef, useState } from "react";
 import gsap from "gsap";
+import finalManImg from "../images/final_man.png";
+import finalAudioFile from "../audio/final.mp3";
 
 /**
  * Helper to combine Tailwind classes.
@@ -74,7 +76,7 @@ export function Footer() {
                         {/* Character Image */}
                         <div ref={travelerRef} className="relative transition-transform duration-500 group-hover:scale-[1.03]">
                             <img
-                                src="src/images/final_man.png"
+                                src={finalManImg}
                                 alt="Путешественник"
                                 className={cn(
                                     "h-80 w-auto object-contain drop-shadow-xl transition-all duration-700",
@@ -90,7 +92,7 @@ export function Footer() {
 
                         <audio
                             ref={audioRef}
-                            src="src/audio/final.mp3"
+                            src={finalAudioFile}
                             onEnded={() => setIsPlaying(false)}
                             preload="metadata"
                         />

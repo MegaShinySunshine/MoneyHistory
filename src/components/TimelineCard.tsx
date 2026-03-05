@@ -50,7 +50,8 @@ export function TimelineCard({
     const [isGamePlaying, setIsGamePlaying] = useState(false);
 
     // Проверка: является ли "игра" на самом деле аудиофайлом (как для банка)
-    const isGameAudio = finalGame?.endsWith(".mp3") || finalGame?.endsWith(".wav");
+    const isGameAudio = typeof finalGame === 'string' &&
+        (finalGame.includes(".mp3") || finalGame.includes(".wav"));
 
     // Логика переключения основного аудио
     const toggleAudio = (e: React.MouseEvent) => {

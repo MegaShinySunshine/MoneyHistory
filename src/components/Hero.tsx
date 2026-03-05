@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import introManImg from "../images/intro_man.png";
+import introAudioFile from "../audio/intro_complete.mp3";
 
 function cn(...classes: (string | boolean | undefined)[]) {
     return classes.filter(Boolean).join(" ");
@@ -75,7 +77,7 @@ export function Hero() {
                     {/* ПЕРСОНАЖ: Без фона, без границ, только PNG с контурной тенью */}
                     <div ref={audioImageRef} className="relative">
                         <img
-                            src="src/images/intro_man.png"
+                            src={introManImg}
                             alt="Путешественник"
                             className={cn(
                                 "h-auto w-full max-w-2xl md:max-w-3xl lg:max-w-4xl object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-all duration-700",
@@ -90,7 +92,7 @@ export function Hero() {
                         )} />
                     </div>
 
-                    <audio ref={audioRef} src="src/audio/intro_complete.mp3" onEnded={() => setIsPlaying(false)} preload="metadata" />
+                    <audio ref={audioRef} src={introAudioFile} onEnded={() => setIsPlaying(false)} preload="metadata" />
                 </div>
             </div>
 
