@@ -34,7 +34,14 @@ export function TimelineCard({
     const articleRef = useRef<HTMLElement>(null);
     const [show, setShow] = useState(false);
 
-    // Основные данные
+    // References for the two separate audio players
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    const gameAudioRef = useRef<HTMLAudioElement | null>(null);
+    const [isGamePlaying, setIsGamePlaying] = useState(false);
+
+    // Data Extraction
     const finalImage = milestone?.imageUrl ?? imageUrl ?? "";
     const finalTitle = milestone?.title ?? title ?? "";
     const finalIcon = milestone?.icon ?? "";
@@ -42,18 +49,16 @@ export function TimelineCard({
     const finalAudio = audioUrl ?? milestone?.audioUrl;
     const finalGame = milestone?.gameUrl;
 
-    // Стейты и рефы для ДВУХ аудио-плееров
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
+    /**
+     * Logic for the 6th element (Bank) or any local import.
+     * 1. Check by ID (milestone 6).
+     * 2. Or check if the gameUrl is NOT an external HTTP link.
+     */
+    const isGameAudio =
+        milestone?.id === 6 ||
+        (typeof finalGame === 'string' && !finalGame.startsWith("http") && finalGame.length > 0);
 
-    const gameAudioRef = useRef<HTMLAudioElement | null>(null);
-    const [isGamePlaying, setIsGamePlaying] = useState(false);
-
-    // Проверка: является ли "игра" на самом деле аудиофайлом (как для банка)
-    const isGameAudio = typeof finalGame === 'string' &&
-        (finalGame.includes(".mp3") || finalGame.includes(".wav"));
-
-    // Логика переключения основного аудио
+    // Main Audio Toggle
     const toggleAudio = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!audioRef.current) return;
@@ -61,7 +66,7 @@ export function TimelineCard({
         if (isPlaying) {
             audioRef.current.pause();
         } else {
-            // Останавливаем второе аудио, если оно играет
+            // Stop the gym/game audio if it's currently playing
             if (isGamePlaying) {
                 gameAudioRef.current?.pause();
                 setIsGamePlaying(false);
@@ -71,7 +76,7 @@ export function TimelineCard({
         setIsPlaying(!isPlaying);
     };
 
-    // Логика переключения аудио-игры (второй плеер)
+    // Gym/Game Audio Toggle (Second Player)
     const toggleGameAudio = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!gameAudioRef.current) return;
@@ -79,7 +84,7 @@ export function TimelineCard({
         if (isGamePlaying) {
             gameAudioRef.current.pause();
         } else {
-            // Останавливаем основное аудио, если оно играет
+            // Stop the main narrator audio if it's currently playing
             if (isPlaying) {
                 audioRef.current?.pause();
                 setIsPlaying(false);
@@ -89,9 +94,10 @@ export function TimelineCard({
         setIsGamePlaying(!isGamePlaying);
     };
 
-    // Рендер иконки (обработка Emoji или URL/SVG)
+    // Helper to render Icon or Image
     const renderIcon = () => {
         if (!finalIcon) return null;
+        // Check if icon is a path/URL or a raw emoji
         const isUrl = finalIcon.startsWith("http") || finalIcon.includes("/") || finalIcon.includes(".svg");
 
         return isUrl ? (
@@ -101,6 +107,7 @@ export function TimelineCard({
         );
     };
 
+    // Intersection Observer for scroll animation
     useEffect(() => {
         if (!reveal || !articleRef.current) return;
         const el = articleRef.current;
@@ -159,11 +166,12 @@ export function TimelineCard({
             >
                 {expanded ? (
                     <div className="cardTop relative">
-                        {/* Иконка (Emoji или SVG) */}
+                        {/* Milestone Icon */}
                         <div className="absolute top-6 left-1/2 -translate-x-1/2 z-10 text-6xl opacity-90">
                             {renderIcon()}
                         </div>
 
+                        {/* Main Image */}
                         <div className="imgWrap" style={{ height: "400px" }}>
                             <img
                                 src={finalImage}
@@ -173,10 +181,10 @@ export function TimelineCard({
                             />
                         </div>
 
-                        {/* Блок кнопок */}
+                        {/* Control Buttons */}
                         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-4 w-full px-8 justify-center">
 
-                            {/* Левая кнопка: Основное аудио */}
+                            {/* Narrator Audio Button */}
                             {finalAudio && (
                                 <button
                                     onClick={toggleAudio}
@@ -192,7 +200,7 @@ export function TimelineCard({
                                 </button>
                             )}
 
-                            {/* Правая кнопка: Игра ИЛИ Второй плеер (для банка) */}
+                            {/* Game Link OR Second Player (Bank Gym-Time) */}
                             {finalGame && (
                                 isGameAudio ? (
                                     <button
@@ -223,7 +231,7 @@ export function TimelineCard({
                         </div>
                     </div>
                 ) : (
-                    /* РЕЖИМ ПРЕВЬЮ */
+                    /* Preview Mode */
                     <div className="cardBody cardBodyPreview relative h-64 overflow-hidden rounded-lg">
                         <img
                             src={milestone?.imageIcon || finalImage}
