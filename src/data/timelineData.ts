@@ -81,8 +81,8 @@ export const milestones: TimelineMilestone[] = [
     imageUrl: "src/images/bel_money.jpg",
     icon: "🦬",
     color: "#54d806",
-    audioUrl: "src/audio/test.mp3",
-    imageBeside: "src/images/man_2.png",
+    audioUrl: "src/audio/bel_money.mp3",
+    imageBeside: "src/images/dep.png",
   },
   { //credit_card
     id: 8,
