@@ -56,7 +56,7 @@ export const milestones: TimelineMilestone[] = [
   },
   {
     id: 5,
-    gameUrl: "VII–XI века н. э.",
+    gameUrl: "gym_time?",
     imageIcon: "src/images/easy_money.png",
     imageUrl: "src/images/money_5.png",
     icon: "📜",
@@ -66,7 +66,7 @@ export const milestones: TimelineMilestone[] = [
   },
   {
     id: 6,
-    gameUrl: "XV–XVII века",
+    gameUrl: "gym_time",
     imageIcon: "src/images/bank.png",
     imageUrl: "src/images/money_6.png",
     icon: "🏛️",
